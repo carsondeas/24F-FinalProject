@@ -73,7 +73,7 @@ CREATE TABLE CoOp_Skill (
     skillID INT,
     jobID INT,
     proficiencyLevel INT,
-    PRIMARY KEY (skillID, NUID),
+    PRIMARY KEY (skillID, jobID),
     FOREIGN KEY (skillID) REFERENCES Skill(skillID),
     FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
     );
