@@ -69,6 +69,15 @@ CREATE TABLE CoOp (
     industry VARCHAR(255)
 );
 
+CREATE TABLE CoOp_Skill (
+    skillID INT,
+    jobID INT,
+    proficiencyLevel INT,
+    PRIMARY KEY (skillID, NUID),
+    FOREIGN KEY (skillID) REFERENCES Skill(skillID),
+    FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
+    );
+
 CREATE TABLE Student_CoOp (
     NUID INT,
     jobID INT,
