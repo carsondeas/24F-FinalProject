@@ -1,13 +1,13 @@
-CREATE DATABASE skillseeker;
+CREATE DATABASE IF NOT EXISTS skillseeker;
 
 USE skillseeker;
 
-CREATE TABLE Department (
+CREATE TABLE IF NOT EXISTS Department (
     departmentID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255)
 );
 
-CREATE TABLE Professor (
+CREATE TABLE IF NOT EXISTS Professor (
     professorID INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     name VARCHAR(255),
@@ -15,7 +15,7 @@ CREATE TABLE Professor (
     FOREIGN KEY (departmentID) REFERENCES Department(departmentID)
 );
 
-CREATE TABLE Course (
+CREATE TABLE IF NOT EXISTS Course (
     courseID INT PRIMARY KEY AUTO_INCREMENT,
     description TEXT,
     name VARCHAR(255),
@@ -23,12 +23,12 @@ CREATE TABLE Course (
     FOREIGN KEY (professorID) REFERENCES Professor(professorID)
 );
 
-CREATE TABLE Skill (
+CREATE TABLE IF NOT EXISTS Skill (
     skillID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255)
 );
 
-CREATE TABLE Course_Skill (
+CREATE TABLE IF NOT EXISTS Course_Skill (
     skillID INT,
     courseID INT,
     proficiencyLevel INT,
@@ -37,7 +37,7 @@ CREATE TABLE Course_Skill (
     FOREIGN KEY (courseID) REFERENCES Course(courseID)
 );
 
-CREATE TABLE Student (
+CREATE TABLE IF NOT EXISTS Student (
     NUID INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     name VARCHAR(255),
@@ -45,7 +45,7 @@ CREATE TABLE Student (
     major VARCHAR(255)
 );
 
-CREATE TABLE Student_Course (
+CREATE TABLE IF NOT EXISTS Student_Course (
     NUID INT,
     courseID INT,
     PRIMARY KEY (NUID, courseID),
@@ -53,7 +53,7 @@ CREATE TABLE Student_Course (
     FOREIGN KEY (courseID) REFERENCES Course(courseID)
 );
 
-CREATE TABLE Student_Skill (
+CREATE TABLE IF NOT EXISTS Student_Skill (
     skillID INT,
     NUID INT,
     proficiencyLevel INT,
@@ -62,14 +62,14 @@ CREATE TABLE Student_Skill (
     FOREIGN KEY (NUID) REFERENCES Student(NUID)
     );
 
-CREATE TABLE CoOp (
+CREATE TABLE IF NOT EXISTS CoOp (
     jobID INT PRIMARY KEY AUTO_INCREMENT,
     jobTitle VARCHAR(255),
     companyName VARCHAR(255),
     industry VARCHAR(255)
 );
 
-CREATE TABLE CoOp_Skill (
+CREATE TABLE IF NOT EXISTS CoOp_Skill (
     skillID INT,
     jobID INT,
     proficiencyLevel INT,
@@ -78,7 +78,7 @@ CREATE TABLE CoOp_Skill (
     FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
     );
 
-CREATE TABLE Student_CoOp (
+CREATE TABLE IF NOT EXISTS Student_CoOp (
     NUID INT,
     jobID INT,
     PRIMARY KEY (NUID, jobID),
@@ -86,7 +86,7 @@ CREATE TABLE Student_CoOp (
     FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
 );
 
-CREATE TABLE Employer (
+CREATE TABLE IF NOT EXISTS Employer (
     employerID INT PRIMARY KEY AUTO_INCREMENT,
     contactEmail VARCHAR(255),
     contactPhone VARCHAR(255),
@@ -94,7 +94,7 @@ CREATE TABLE Employer (
     industry VARCHAR(255)
 );
 
-CREATE TABLE Employer_CoOp (
+CREATE TABLE IF NOT EXISTS Employer_CoOp (
     employerID INT,
     jobID INT,
     PRIMARY KEY (employerID, jobID),
@@ -102,7 +102,7 @@ CREATE TABLE Employer_CoOp (
     FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
 );
 
-CREATE TABLE CoOpAdvisor (
+CREATE TABLE IF NOT EXISTS CoOpAdvisor (
     advisorID INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     name VARCHAR(255),
@@ -110,7 +110,7 @@ CREATE TABLE CoOpAdvisor (
     FOREIGN KEY (departmentID) REFERENCES Department(departmentID)
 );
 
-CREATE TABLE AdvisorStudent (
+CREATE TABLE IF NOT EXISTS AdvisorStudent (
     NUID INT,
     advisorID INT,
     PRIMARY KEY (NUID, advisorID),
@@ -118,7 +118,7 @@ CREATE TABLE AdvisorStudent (
     FOREIGN KEY (advisorID) REFERENCES CoOpAdvisor(advisorID)
 );
 
-CREATE TABLE AdvisorEmployer (
+CREATE TABLE IF NOT EXISTS AdvisorEmployer (
     employerID INT,
     advisorID INT,
     PRIMARY KEY (employerID, advisorID),
