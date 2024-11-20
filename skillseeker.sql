@@ -125,3 +125,94 @@ CREATE TABLE IF NOT EXISTS AdvisorEmployer (
     FOREIGN KEY (employerID) REFERENCES Employer(employerID),
     FOREIGN KEY (advisorID) REFERENCES CoOpAdvisor(advisorID)
 );
+
+
+-- Insert data into Department
+INSERT INTO Department (name) VALUES 
+('Computer Science'), 
+('Finance'), 
+('Engineering');
+
+-- Insert data into Professor
+INSERT INTO Professor (email, name, departmentID) VALUES 
+('jdoe@university.edu', 'John Doe', 1), 
+('asmith@university.edu', 'Alice Smith', 2), 
+('bwong@university.edu', 'Bob Wong', 3);
+
+-- Insert data into Course
+INSERT INTO Course (description, name, professorID) VALUES 
+('Database Design', 'CS3200', 1), 
+('Advanced Algorithms', 'CS3000', 1), 
+('Corporate Finance', 'FINA3301', 2);
+
+-- Insert data into Skill
+INSERT INTO Skill (name) VALUES 
+('Python'), 
+('C++'), 
+('Financial Analysis');
+
+-- Insert data into Course_Skill
+INSERT INTO Course_Skill (skillID, courseID, proficiencyLevel) VALUES 
+(1, 1, 3), 
+(2, 2, 4), 
+(3, 3, 5);
+
+-- Insert data into Student
+INSERT INTO Student (email, name, GPA, major) VALUES 
+('student1@northeastern.edu', 'Alice Green', 3.8, 'Computer Science'), 
+('student2@northeastern.edu', 'Bob Brown', 3.5, 'Finance'), 
+('student3@northeastern.edu', 'Charlie White', 3.7, 'Engineering');
+
+-- Insert data into Student_Course
+INSERT INTO Student_Course (NUID, courseID) VALUES 
+(1, 1), 
+(2, 3), 
+(3, 2);
+
+-- Insert data into Student_Skill
+INSERT INTO Student_Skill (skillID, NUID, proficiencyLevel) VALUES 
+(1, 1, 4), 
+(3, 2, 5), 
+(2, 3, 3);
+
+-- Insert data into CoOp
+INSERT INTO CoOp (jobTitle, companyName, industry) VALUES 
+('Software Engineer Intern', 'Google', 'Tech'), 
+('Finance Analyst Intern', 'Goldman Sachs', 'Finance'), 
+('Mechanical Engineer Intern', 'Tesla', 'Automotive');
+
+-- Insert data into Student_CoOp
+INSERT INTO Student_CoOp (NUID, jobID) VALUES 
+(1, 1), 
+(2, 2), 
+(3, 3);
+
+-- Insert data into Employer
+INSERT INTO Employer (contactEmail, contactPhone, contactName, industry) VALUES 
+('hr@google.com', '123-456-7890', 'Google HR', 'Tech'), 
+('hr@goldmansachs.com', '987-654-3210', 'Goldman HR', 'Finance'), 
+('hr@tesla.com', '555-555-5555', 'Tesla HR', 'Automotive');
+
+-- Insert data into Employer_CoOp
+INSERT INTO Employer_CoOp (employerID, jobID) VALUES 
+(1, 1), 
+(2, 2), 
+(3, 3);
+
+-- Insert data into CoOpAdvisor
+INSERT INTO CoOpAdvisor (email, name, departmentID) VALUES 
+('advisor1@northeastern.edu', 'Emma Johnson', 1), 
+('advisor2@northeastern.edu', 'Michael Lee', 2), 
+('advisor3@northeastern.edu', 'Sophia Carter', 3);
+
+-- Insert data into AdvisorStudent
+INSERT INTO AdvisorStudent (NUID, advisorID) VALUES 
+(1, 1), 
+(2, 2), 
+(3, 3);
+
+-- Insert data into AdvisorEmployer
+INSERT INTO AdvisorEmployer (employerID, advisorID) VALUES 
+(1, 1), 
+(2, 2), 
+(3, 3);
