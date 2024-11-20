@@ -181,6 +181,12 @@ INSERT INTO CoOp (jobTitle, companyName, industry) VALUES
 ('Finance Analyst Intern', 'Goldman Sachs', 'Finance'), 
 ('Mechanical Engineer Intern', 'Tesla', 'Automotive');
 
+-- Insert data into CoOp_Skill
+INSERT INTO CoOp_Skill (skillID, jobID, proficiencyLevel) VALUES
+(1, 1, 5),
+(2, 2, 3),
+(3, 3, 10);
+
 -- Insert data into Student_CoOp
 INSERT INTO Student_CoOp (NUID, jobID) VALUES 
 (1, 1), 
