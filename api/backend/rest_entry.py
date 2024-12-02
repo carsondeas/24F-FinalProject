@@ -4,6 +4,8 @@ from backend.departments.department_routes import departments
 from backend.professors.professor_routes import professors
 from backend.courses.course_routes import courses
 from backend.students.student_routes import students
+from backend.skills.skill_routes import skills
+from backend.coops.coop_routes import coops
 import os
 from dotenv import load_dotenv
 
@@ -31,6 +33,8 @@ def create_app():
     # Register the routes from each Blueprint
     app.logger.info('Registering blueprints with the Flask app object...')
     app.register_blueprint(departments, url_prefix='/departments')
+    app.register_blueprint(skills, url_prefix='/skills')
+    app.register_blueprint(coops, url_prefix='/coops')
     app.register_blueprint(professors, url_prefix='/professors')
     app.register_blueprint(courses, url_prefix='/courses')
     app.register_blueprint(students, url_prefix='/students')
