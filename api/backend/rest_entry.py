@@ -4,6 +4,8 @@ from backend.departments.department_routes import departments
 from backend.professors.professor_routes import professors
 from backend.courses.course_routes import courses
 from backend.students.student_routes import students
+from backend.skills.skill_routes import skills
+from backend.coops.coop_routes import coops
 import os
 from dotenv import load_dotenv
 
