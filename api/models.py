@@ -17,4 +17,12 @@ class Professor(db.Model):
     name = db.Column(db.String(255))
     departmentID = db.Column(db.Integer, db.ForeignKey('Department.departmentID'))
 
+# Course Table
+class Course(db.Model):
+    __tablename__ = 'Course'
+    courseID = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.Text)
+    name = db.Column(db.String(255))
+    professorID = db.Column(db.Integer, db.ForeignKey('Professor.professorID'))
+
 
