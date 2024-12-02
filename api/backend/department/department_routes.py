@@ -21,3 +21,12 @@ def create_departments():
     cursor.execute(query, (data['name'],))
     db.get_db().commit()
     return 'Department created!', 201
+
+@departments.route('/departments/<departmentID>', methods=['DELETE'])
+def delete_department(departmentID):
+    current_app.logger.info(f'DELETE /departments/{departmentID} route')
+    query = 'DELETE FROM Department WHERE departmentID = %s'
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (departmentID,))
+    db.get_db().commit()
+    return 'Department deleted!', 200
