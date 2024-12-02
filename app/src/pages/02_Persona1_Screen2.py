@@ -1,104 +1,81 @@
-import logging
-logger = logging.getLogger(__name__)
 import streamlit as st
-from streamlit_extras.app_logo import add_logo
-import pandas as pd
-import pydeck as pdk
-from urllib.error import URLError
-from modules.nav import SideBarLinks
 
-SideBarLinks()
-
-# add the logo
-add_logo("assets/logo.png", height=400)
-
-# set up the page
-st.markdown("# Mapping Demo")
-st.sidebar.header("Mapping Demo")
-st.write(
-    """This Mapping Demo is from the Streamlit Documentation. It shows how to use
-[`st.pydeck_chart`](https://docs.streamlit.io/library/api-reference/charts/st.pydeck_chart)
-to display geospatial data."""
+# Set page configuration to wide
+st.set_page_config(
+    page_title="Skill Comparison with Company",
+    page_icon="📊",
+    layout="wide",  # Set the layout to wide
+    initial_sidebar_state="expanded"  # Sidebar initially expanded
 )
 
+st.title("Skill Comparison with Company")
 
-@st.cache_data
-def from_data_file(filename):
-    url = (
-        "http://raw.githubusercontent.com/streamlit/"
-        "example-data/master/hello/v1/%s" % filename
-    )
-    return pd.read_json(url)
+# Company Selection
+company_name = st.selectbox("Select Company", ["Google", "Jane Street", "Apple"])
 
-
-try:
-    ALL_LAYERS = {
-        "Bike Rentals": pdk.Layer(
-            "HexagonLayer",
-            data=from_data_file("bike_rental_stats.json"),
-            get_position=["lon", "lat"],
-            radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
-            extruded=True,
-        ),
-        "Bart Stop Exits": pdk.Layer(
-            "ScatterplotLayer",
-            data=from_data_file("bart_stop_stats.json"),
-            get_position=["lon", "lat"],
-            get_color=[200, 30, 0, 160],
-            get_radius="[exits]",
-            radius_scale=0.05,
-        ),
-        "Bart Stop Names": pdk.Layer(
-            "TextLayer",
-            data=from_data_file("bart_stop_stats.json"),
-            get_position=["lon", "lat"],
-            get_text="name",
-            get_color=[0, 0, 0, 200],
-            get_size=15,
-            get_alignment_baseline="'bottom'",
-        ),
-        "Outbound Flow": pdk.Layer(
-            "ArcLayer",
-            data=from_data_file("bart_path_stats.json"),
-            get_source_position=["lon", "lat"],
-            get_target_position=["lon2", "lat2"],
-            get_source_color=[200, 30, 0, 160],
-            get_target_color=[200, 30, 0, 160],
-            auto_highlight=True,
-            width_scale=0.0001,
-            get_width="outbound",
-            width_min_pixels=3,
-            width_max_pixels=30,
-        ),
-    }
-    st.sidebar.markdown("### Map Layers")
-    selected_layers = [
-        layer
-        for layer_name, layer in ALL_LAYERS.items()
-        if st.sidebar.checkbox(layer_name, True)
+# Define company-specific skills
+company_skills_data = {
+    "Google": [
+        {"name": "Python", "score": 8},
+        {"name": "React", "score": 7},
+        {"name": "Team Work", "score": 9},
+        {"name": "Discipline", "score": 8},
+        {"name": "Eagerness to Learn", "score": 10},
+        {"name": "Java", "score": 8},
+        {"name": "Cloud Computing", "score": 7}
+    ],
+    "Jane Street": [
+        {"name": "Python", "score": 9},
+        {"name": "Java", "score": 8},
+        {"name": "Leadership", "score": 10},
+        {"name": "Discipline", "score": 7},
+        {"name": "Data Analysis", "score": 8},
+        {"name": "C++", "score": 9},
+        {"name": "Statistics", "score": 10}
+    ],
+    "Apple": [
+        {"name": "Swift", "score": 9},
+        {"name": "Objective-C", "score": 8},
+        {"name": "Leadership", "score": 7},
+        {"name": "Discipline", "score": 6},
+        {"name": "Eagerness to Learn", "score": 8},
+        {"name": "UI/UX Design", "score": 10},
+        {"name": "Problem Solving", "score": 9}
     ]
-    if selected_layers:
-        st.pydeck_chart(
-            pdk.Deck(
-                map_style="mapbox://styles/mapbox/light-v9",
-                initial_view_state={
-                    "latitude": 37.76,
-                    "longitude": -122.4,
-                    "zoom": 11,
-                    "pitch": 50,
-                },
-                layers=selected_layers,
-            )
-        )
-    else:
-        st.error("Please choose at least one layer above.")
-except URLError as e:
-    st.error(
-        """
-        **This demo requires internet access.**
-        Connection error: %s
-    """
-        % e.reason
+}
+
+# Define user skills
+user_skills = [
+    {"name": "Python", "score": 8},
+    {"name": "Java", "score": 7},
+    {"name": "Leadership", "score": 3},
+    {"name": "Discipline", "score": 5},
+    {"name": "JavaScript", "score": 5},
+    {"name": "React", "score": 2},
+    {"name": "SQL", "score": 2}
+]
+
+# Fetch company-specific skills based on selection
+company_skills = company_skills_data.get(company_name, [])
+
+# Skill Comparison Table
+st.subheader("Skill Comparison")
+comparison_data = []
+for user_skill, company_skill in zip(user_skills, company_skills):
+    comparison_data.append(
+        {
+            "User Skill": user_skill["name"],
+            "User Score": user_skill["score"],
+            "Company Skill": company_skill["name"],
+            "Company Score": company_skill["score"]
+        }
     )
+
+st.table(comparison_data)
+
+# Add Skill (Optional)
+st.text_input("Add Skill")
+
+# User Comments Section
+st.subheader("User Comments")
+st.text_area("Leave a comment")
