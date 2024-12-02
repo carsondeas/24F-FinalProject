@@ -24,6 +24,8 @@ industry_demands = {
 # Dropdown for student selection
 selected_student = st.selectbox("Select a Student:", list(student_profiles.keys()))
 
+
+
 # Display student skills
 st.subheader(f"{selected_student}'s Skills")
 for skill, proficiency in student_profiles[selected_student]["skills"].items():
@@ -39,3 +41,18 @@ for role, skills in industry_demands.items():
 # Advisor insights
 if st.button("Analyze Student Profile"):
     st.success(f"Analysis for {selected_student} completed! Suggest enhancing Cloud Computing and Data Analysis.")
+
+# To remove outdated skills
+st.subheader("Remove Outdated Skills")
+outdated_skill = st.text_input("Enter Skill to Remove:")
+if st.button("Remove Skill"):
+    removed = False
+    for company in company_skills_db.values():
+        for role_skills in company.values():
+            if outdated_skill in role_skills:
+                del role_skills[outdated_skill]
+                removed = True
+    if removed:
+        st.success(f"Removed outdated skill: {outdated_skill}")
+    else:
+        st.warning(f"Skill {outdated_skill} not found in the database.")
