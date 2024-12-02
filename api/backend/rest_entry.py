@@ -33,6 +33,8 @@ def create_app():
     # Register the routes from each Blueprint
     app.logger.info('Registering blueprints with the Flask app object...')
     app.register_blueprint(departments, url_prefix='/departments')
+    app.register_blueprint(skills, url_prefix='/skills')
+    app.register_blueprint(coops, url_prefix='/coops')
     app.register_blueprint(professors, url_prefix='/professors')
     app.register_blueprint(courses, url_prefix='/courses')
     app.register_blueprint(students, url_prefix='/students')
