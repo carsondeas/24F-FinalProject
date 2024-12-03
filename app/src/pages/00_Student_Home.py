@@ -17,7 +17,7 @@ st.write('### What would you like to do today?')
 if st.button('Skill Tracking', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/01_Persona1_Screen1.py')
+  st.switch_page('pages/11_Prediction.py')
 
 if st.button('Skill Comparison', 
              type='primary',
