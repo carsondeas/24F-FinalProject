@@ -4,29 +4,29 @@ from backend.db_connection import db
 skills = Blueprint('skills', __name__)
 
 @skills.route('/skills', methods=['GET'])
-def get_skills():
+def get_all_skills():
+    query = 'SELECT DISTINCT skill FROM StudentSkills'
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT skillID, name FROM Skill')
-    the_data = cursor.fetchall()
-    the_response = make_response(jsonify(the_data))
-    the_response.status_code = 200
-    return the_response
+    cursor.execute(query)
+    data = cursor.fetchall()
+    return make_response(jsonify(data), 200)
 
 @skills.route('/skills', methods=['POST'])
-def create_skill():
-    current_app.logger.info('POST /skills route')
+def add_skill():
     data = request.json
-    query = 'INSERT INTO Skill (name) VALUES (%s)'
+    query = 'INSERT INTO Skills (skill) VALUES (%s)'
     cursor = db.get_db().cursor()
-    cursor.execute(query, (data['name'],))
+    cursor.execute(query, (data['skill'],))
     db.get_db().commit()
-    return 'Skill created!', 201
+    return make_response("Skill added successfully", 201)
 
-@skills.route('/skills/<skillID>', methods=['DELETE'])
-def delete_skill(skillID):
-    current_app.logger.info(f'DELETE /skills/{skillID} route')
-    query = 'DELETE FROM Skill WHERE skillID = %s'
+@skills.route('/skills/<int:skill_id>', methods=['GET'])
+def get_skill_by_id(skill_id):
+    query = 'SELECT id, skill FROM Skills WHERE id = %s'
     cursor = db.get_db().cursor()
-    cursor.execute(query, (skillID,))
-    db.get_db().commit()
-    return 'Skill deleted!', 200
+    cursor.execute(query, (skill_id,))
+    data = cursor.fetchone()
+    if data:
+        return make_response(jsonify(data), 200)
+    else:
+        return make_response("Skill not found", 404)
