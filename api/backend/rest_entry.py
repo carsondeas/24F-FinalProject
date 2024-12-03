@@ -1,11 +1,11 @@
 from flask import Flask
 from backend.db_connection import db
-from backend.departments.department_routes import departments
-from backend.professors.professor_routes import professors
+from backend.department.department_routes import departments
+from backend.Professor.professor_routes import professors
 from backend.courses.course_routes import courses
-from backend.students.student_routes import students
-from backend.skills.skill_routes import skills
-from backend.coops.coop_routes import coops
+from backend.student.student_routes import students
+from backend.skill.skill_routes import skills
+from backend.coop.coop_routes import coops
 import os
 from dotenv import load_dotenv
 
