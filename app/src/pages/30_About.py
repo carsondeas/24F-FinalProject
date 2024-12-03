@@ -14,5 +14,5 @@ st.markdown (
 
     **SkillSeeker** simplifies the co-op and job application process by providing access to a comprehensive database of skills for potential employees and employers.
     With this application, users can better understand the real demands of the industries they wish to enter, allowing for informed career planning and preparation.
-        """
+    """
         )

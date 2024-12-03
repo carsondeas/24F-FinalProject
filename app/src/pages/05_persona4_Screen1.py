@@ -7,7 +7,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.title("Co-Op Advisor Toolkit")
+st.title("Co-Op Advisor skill/student/industry demand viewer")
 
 # Define student profiles
 student_profiles = {
@@ -23,7 +23,6 @@ industry_demands = {
 
 # Dropdown for student selection
 selected_student = st.selectbox("Select a Student:", list(student_profiles.keys()))
-
 
 
 # Display student skills
