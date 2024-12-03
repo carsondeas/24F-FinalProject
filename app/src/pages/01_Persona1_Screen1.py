@@ -1,8 +1,6 @@
 import streamlit as st
 import requests
 
-API_BASE = "http://localhost:4000/api"  # Replace with your Flask API base URL
-
 # Set the page configuration to wide
 st.set_page_config(
     page_title="Skill Tracking and Trends",  # Title of the browser tab
