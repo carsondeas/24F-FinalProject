@@ -9,20 +9,9 @@ def get_students():
     cursor = db.get_db().cursor()
     cursor.execute(query)
     data = cursor.fetchall()
-    response = make_response(jsonify(data))
-    response.status_code = 200
-    return response
+    return make_response(jsonify(data), 200)
 
-@students.route('/students/<NUID>', methods=['GET'])
-def get_student(NUID):
-    query = 'SELECT NUID, name, email, GPA, major FROM Student WHERE NUID = %s'
-    cursor = db.get_db().cursor()
-    cursor.execute(query, (NUID,))
-    data = cursor.fetchall()
-    response = make_response(jsonify(data))
-    response.status_code = 200
-    return response
-
+# Add a new student
 @students.route('/students', methods=['POST'])
 def add_student():
     data = request.json
