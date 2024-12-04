@@ -18,13 +18,20 @@ st.set_page_config(
 # Fetch job titles from API
 def fetch_job_titles():
     try:
-        response = requests.get(f"{API_BASE}/coop/job_titles")
+        response = requests.get(f"{API_BASE}/coops/name")
         response.raise_for_status()
         return response.json()
     except Exception as e:
         st.error(f"Error fetching job titles: {e}")
         return []
-
+# Display job titles only when toggled
+if st.checkbox("Show Job Titles"):
+    job_titles = fetch_job_titles()
+    if job_titles:
+        st.subheader("Job Titles")
+        st.write(job_titles)  # Display the list of job titles
+    else:
+        st.write("No job titles available.")
 def fetch_and_display_skills(nuid):
     """
     Fetch a student's skills and proficiency levels from the API and display them

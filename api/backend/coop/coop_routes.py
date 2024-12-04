@@ -17,6 +17,17 @@ def get_all_co_ops():
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
+@coops.route('/name', methods=['GET'])
+def get_all_co_ops_name():
+    query = '''
+        SELECT C.jobTitle, C.companyName
+        FROM CoOp C
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    return make_response(jsonify(data), 200)
+
 @coops.route('/coops/<int:coop_id>', methods=['GET'])
 def get_coop_by_id(coop_id):
     query = '''
