@@ -23,3 +23,8 @@ if st.button('Skill Gap Analysis',
              type='primary',
              use_container_width=True):
   st.switch_page('pages/02_skill_gap_analysis.py')
+
+if st.button("Progress Tracking",
+             type="primary",
+             use_container_width=True):
+  st.switch_page("pages/03_progress_tracking.py")
