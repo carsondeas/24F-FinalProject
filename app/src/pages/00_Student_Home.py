@@ -19,7 +19,7 @@ if st.button('Skill Tracking',
              use_container_width=True):
   st.switch_page('pages/01_skill_tracking.py')
 
-if st.button('Skill Comparison', 
+if st.button('Skill Gap Analysis', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/02_Skill_Comparison.py')
+  st.switch_page('pages/02_skill_gap_analysis.py')
