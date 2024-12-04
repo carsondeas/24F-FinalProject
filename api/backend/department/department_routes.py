@@ -4,29 +4,29 @@ from backend.db_connection import db
 departments = Blueprint('departments', __name__)
 
 @departments.route('/departments', methods=['GET'])
-def get_departments():
+def get_all_departments():
+    query = 'SELECT id, name FROM Departments'
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT departmentID, name FROM Department')
+    cursor.execute(query)
     data = cursor.fetchall()
-    response = make_response(jsonify(data))
-    response.status_code = 200
-    return response
+    return make_response(jsonify(data), 200)
 
-@departments.route('/departments', methods=['POST'])
-def create_departments():
-    current_app.logger.info('POST /departments route')
-    data = request.json
-    query = 'INSERT INTO Department (name) VALUES (%s)'
+@departments.route('/departments/<int:department_id>', methods=['GET'])
+def get_department_details(department_id):
+    query = '''
+        SELECT D.id, D.name, 
+               GROUP_CONCAT(DISTINCT P.name) AS professors, 
+               GROUP_CONCAT(DISTINCT C.name) AS courses
+        FROM Departments D
+        LEFT JOIN Professors P ON D.id = P.department_id
+        LEFT JOIN Courses C ON D.id = C.department_id
+        WHERE D.id = %s
+        GROUP BY D.id, D.name
+    '''
     cursor = db.get_db().cursor()
-    cursor.execute(query, (data['name'],))
-    db.get_db().commit()
-    return 'Department created!', 201
-
-@departments.route('/departments/<departmentID>', methods=['DELETE'])
-def delete_department(departmentID):
-    current_app.logger.info(f'DELETE /departments/{departmentID} route')
-    query = 'DELETE FROM Department WHERE departmentID = %s'
-    cursor = db.get_db().cursor()
-    cursor.execute(query, (departmentID,))
-    db.get_db().commit()
-    return 'Department deleted!', 200
+    cursor.execute(query, (department_id,))
+    data = cursor.fetchone()
+    if data:
+        return make_response(jsonify(data), 200)
+    else:
+        return make_response("Department not found", 404)
