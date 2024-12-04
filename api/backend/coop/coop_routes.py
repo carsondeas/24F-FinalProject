@@ -3,7 +3,7 @@ from backend.db_connection import db
 
 coops = Blueprint('coops', __name__)
 
-@coops.route('/co_ops', methods=['GET'])
+@coops.route('/coops', methods=['GET'])
 def get_all_co_ops():
     query = '''
         SELECT C.id, C.title, C.company, C.description, GROUP_CONCAT(S.skill) as skills
@@ -47,7 +47,7 @@ def get_coop_by_id(coop_id):
         return make_response("Co-op opportunity not found", 404)
 
 # Add a new co-op opportunity to the database
-@coops.route('/co_ops', methods=['POST'])
+@coops.route('/coops', methods=['POST'])
 def add_co_op():
     data = request.json
     # Insert the co-op opportunity details
