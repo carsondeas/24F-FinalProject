@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import pandas as pd
+import altair as alt
 
 # Set the API base URL
 API_BASE = "http://localhost:4000"  # Ensure this matches your Docker setup
@@ -23,17 +25,53 @@ def fetch_job_titles():
         st.error(f"Error fetching job titles: {e}")
         return []
 
-# Fetch user skills
-def fetch_user_skills(nuid):
+def fetch_and_display_skills(nuid):
+    """
+    Fetch a student's skills and proficiency levels from the API and display them
+    as a table and a bar chart in Streamlit.
+
+    Args:
+        nuid (int): The student's unique ID (NUID).
+    """
     try:
+        # Fetch skills data from the API
         response = requests.get(f"{API_BASE}/students/{nuid}/details")
         response.raise_for_status()
         skills_data = response.json()
-        return skills_data
-    except Exception as e:
-        st.error(f"Error fetching user skills: {e}")
-        return []
+        
+        if not skills_data:
+            st.warning(f"No skills found for student with NUID {nuid}.")
+            return
 
+        # Convert skills data to a DataFrame
+        df = pd.DataFrame(skills_data)
+
+        # Display the skills table
+        st.subheader("Your Skills")
+        st.dataframe(df)
+
+        # Create a bar chart for proficiency levels
+        st.subheader("Skills Proficiency Chart")
+        chart = alt.Chart(df).mark_bar().encode(
+            x=alt.X("proficiencyLevel:Q", title="Proficiency Level"),
+            y=alt.Y("skill_name:O", title="Skill", sort="-x"),
+            color=alt.Color("proficiencyLevel:Q", scale=alt.Scale(scheme="blues")),
+            tooltip=["skill_name", "proficiencyLevel"]
+        ).properties(
+            width=600,
+            height=400,
+            title=f"Proficiency Levels for Student NUID {nuid}"
+        )
+
+        st.altair_chart(chart, use_container_width=True)
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching user skills: {e}")
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
+
+user_id = 1  # Example logged-in user
+user_skills = fetch_and_display_skills(user_id)
 # Fetch all available skills
 def fetch_all_skills():
     try:
@@ -65,8 +103,7 @@ def update_user_skills(user_id, skills):
         st.error(f"Error updating skills: {e}")
 
 # Fetch data dynamically
-user_id = 1  # Example logged-in user
-user_skills = fetch_user_skills(user_id)
+
 all_skills = fetch_all_skills()
 
 # Display User Skills
