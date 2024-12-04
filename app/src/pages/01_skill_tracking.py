@@ -58,7 +58,7 @@ def fetch_and_display_skills(nuid):
         st.dataframe(df)
 
         # Create a bar chart for proficiency levels
-        st.subheader("Skills Proficiency Chart")
+        st.subheader("Your Skills Proficiency Chart")
         chart = alt.Chart(df).mark_bar().encode(
             x=alt.X("proficiencyLevel:Q", title="Proficiency Level"),
             y=alt.Y("skill_name:O", title="Skill", sort="-x"),
@@ -90,44 +90,107 @@ def fetch_all_skills():
         return []
 
 # Add a new skill for the user
-def add_user_skill(user_id, skill_name):
-    payload = {"skill": skill_name}
+def add_user_skill(user_id, skill_data):
+    """
+    Adds a new skill for the user.
+    
+    Args:
+        user_id (int): User's ID.
+        skill_data (dict): Dictionary containing skillID and proficiencyLevel.
+    """
     try:
-        response = requests.post(f"{API_BASE}/skills/add", json=payload)
+        response = requests.post(f"{API_BASE}/students/{user_id}/skillsadd", json=skill_data)
         response.raise_for_status()
-        st.success(f"Skill '{skill_name}' added successfully!")
+        st.success(f"Skill '{skill_data['skillID']}' with proficiency level {skill_data['proficiencyLevel']} added successfully!")
     except Exception as e:
         st.error(f"Error adding skill: {e}")
 
-# Update user profile
-def update_user_skills(user_id, skills):
-    payload = {"skills": skills}
+# Update user skills
+def update_user_skills(user_id, skill_data):
+    """
+    Updates an existing skill for the user.
+    
+    Args:
+        user_id (int): User's ID.
+        skill_data (dict): Dictionary containing skillID and proficiencyLevel.
+    """
     try:
-        response = requests.put(f"{API_BASE}/students/{user_id}", json=payload)
+        response = requests.put(f"{API_BASE}/students/{user_id}/skillsupdate", json=skill_data)
         response.raise_for_status()
-        st.success("User skills updated successfully!")
+        st.success(f"Skill '{skill_data['skillID']}' updated to proficiency level {skill_data['proficiencyLevel']}!")
     except Exception as e:
         st.error(f"Error updating skills: {e}")
 
-# Fetch data dynamically
-
+# Fetch all available skills
 all_skills = fetch_all_skills()
 
-# Display User Skills
-st.subheader("Your Skills")
-if user_skills:
-    st.table(user_skills)
-else:
-    st.write("No skills found for the user.")
-
-# Add a new skill
-st.subheader("Add a New Skill")
-new_skill_name = st.selectbox("Select a Skill to Add", [skill for skill in all_skills if skill not in [us["name"] for us in user_skills]])
-if st.button("Add Skill"):
-    add_user_skill(user_id, new_skill_name)
-
-# Update User Skills
+# Update user skills with proficiency levels
 st.subheader("Update Your Skills")
-selected_skills = st.multiselect("Select Skills", all_skills, default=[us["name"] for us in user_skills])
-if st.button("Update Skills"):
-    update_user_skills(user_id, selected_skills)
+
+# Create a dictionary to store proficiency levels for all selected skills
+proficiency_levels = {}
+
+# Display multiselect for skills
+selected_skills = st.multiselect(
+    "Select Skills",
+    [skill["name"] for skill in all_skills],  # List of all available skills
+    default=[us["skill_name"] for us in user_skills or []]  # Pre-select user's current skills
+)
+
+# Dynamically display sliders for proficiency levels
+if selected_skills:
+    st.subheader("Set Proficiency Levels")
+    for skill_name in selected_skills:
+        proficiency_levels[skill_name] = st.slider(
+            f"Proficiency for {skill_name}",
+            min_value=1,
+            max_value=5,
+            value=3,  # Default proficiency level
+            step=1
+        )
+
+
+st.title("Add Skill for a Student")
+
+# Input fields for the required data
+st.subheader("Enter Skill Details")
+
+# Collect NUID (Student ID)
+nuid = st.text_input("Student NUID", "")
+
+# Collect SkillID (Skill ID)
+skill_id = st.text_input("Skill ID", "")
+
+# Collect ProficiencyLevel
+proficiency_level = st.slider(
+    "Proficiency Level",
+    min_value=1,
+    max_value=5,
+    value=3,
+    step=1,
+    help="Select the student's proficiency level for the skill (1-5)"
+)
+
+# Handle form submission
+if st.button("Add Skill"):
+    # Ensure all required fields are filled
+    if not nuid or not skill_id:
+        st.error("Please enter both NUID and Skill ID.")
+    else:
+        # Prepare the payload
+        payload = {
+            "NUID": int(nuid),
+            "SkillID": int(skill_id),
+            "ProficiencyLevel": int(proficiency_level)
+        }
+
+        # Send the POST request to the API
+        try:
+            response = requests.post(f"{API_BASE}/students/skill", json=payload)
+            response.raise_for_status()  # Raise an error for unsuccessful responses
+
+            st.success("Skill added successfully!")
+        except requests.exceptions.RequestException as e:
+            st.error(f"Error adding skill: {e}")
+
+

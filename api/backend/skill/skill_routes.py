@@ -6,7 +6,7 @@ skills = Blueprint('skills', __name__)
 @skills.route('/all', methods=['GET'])
 def get_all_skills():
     query = '''
-        SELECT DISTINCT Skill.name
+        SELECT DISTINCT Skill.name ,Skill.skillId
         FROM Skill
     '''
     cursor = db.get_db().cursor()
