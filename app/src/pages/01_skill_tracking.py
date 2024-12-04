@@ -14,7 +14,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-
 # Fetch job titles from API
 def fetch_job_titles():
     try:
@@ -24,14 +23,39 @@ def fetch_job_titles():
     except Exception as e:
         st.error(f"Error fetching job titles: {e}")
         return []
-# Display job titles only when toggled
-if st.checkbox("Show Job Titles"):
-    job_titles = fetch_job_titles()
-    if job_titles:
-        st.subheader("Job Titles")
-        st.write(job_titles)  # Display the list of job titles
+    
+# Fetch skills based on selected job
+def fetch_skills_for_job(job_title):
+    try:
+        response = requests.get(f"{API_BASE}/skills/job", params={"jobTitle": job_title})
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        st.error(f"Error fetching skills for job title '{job_title}': {e}")
+        return []
+
+# Dropdown for selecting job titles
+st.subheader("Select a Job Title")
+job_titles_data = fetch_job_titles()
+
+if job_titles_data:
+    job_titles = [f"{job['companyName']} - {job['jobTitle']}" for job in job_titles_data]
+    selected_job = st.selectbox("Job Titles", job_titles)
+else:
+    st.write("No job titles available.")
+
+# Show skills associated with the selected job
+if selected_job:
+    company, job_title = selected_job.split(" - ")
+    skills = fetch_skills_for_job(job_title)
+    st.subheader(f"Skills Required for '{job_title}' at {company}")
+    if skills:
+        st.table(skills)
     else:
-        st.write("No job titles available.")
+        st.write(f"No skills available for the selected job: {job_title}")
+
+        
+
 def fetch_and_display_skills(nuid):
     """
     Fetch a student's skills and proficiency levels from the API and display them
