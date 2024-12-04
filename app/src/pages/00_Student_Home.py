@@ -24,7 +24,12 @@ if st.button('Skill Gap Analysis',
              use_container_width=True):
   st.switch_page('pages/02_skill_gap_analysis.py')
 
-if st.button("Progress Tracking",
-             type="primary",
+if st.button('Progress Tracking',
+             type='primary',
              use_container_width=True):
-  st.switch_page("pages/03_progress_tracking.py")
+  st.switch_page('pages/03_progress_tracking.py')
+
+if st.button('Co-op Role Matching',
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/04_coop_role_matching.py')
