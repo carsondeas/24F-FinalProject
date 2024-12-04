@@ -1,4 +1,8 @@
 import streamlit as st
+import requests
+
+# Set the API base URL
+API_BASE = "http://web-api:4000"
 
 # Set page configuration to wide
 st.set_page_config(
@@ -11,70 +15,59 @@ st.set_page_config(
 st.title("Skill Comparison with Company")
 
 # Company Selection
-company_name = st.selectbox("Select Company", ["Google", "Jane Street", "Apple"])
+company_name = st.selectbox("Select Company", ["Microsoft", "Google", "Apple", "Amazon", "IBM"])
+co_op_role = st.selectbox(
+    "Select Co-Op Role",
+    ["Software Developer Intern", "Data Analyyst Intern", "Machine Learning Intern"]
+)
 
-# Define company-specific skills
-company_skills_data = {
-    "Google": [
-        {"name": "Python", "score": 8},
-        {"name": "React", "score": 7},
-        {"name": "Team Work", "score": 9},
-        {"name": "Discipline", "score": 8},
-        {"name": "Eagerness to Learn", "score": 10},
-        {"name": "Java", "score": 8},
-        {"name": "Cloud Computing", "score": 7}
-    ],
-    "Jane Street": [
-        {"name": "Python", "score": 9},
-        {"name": "Java", "score": 8},
-        {"name": "Leadership", "score": 10},
-        {"name": "Discipline", "score": 7},
-        {"name": "Data Analysis", "score": 8},
-        {"name": "C++", "score": 9},
-        {"name": "Statistics", "score": 10}
-    ],
-    "Apple": [
-        {"name": "Swift", "score": 9},
-        {"name": "Objective-C", "score": 8},
-        {"name": "Leadership", "score": 7},
-        {"name": "Discipline", "score": 6},
-        {"name": "Eagerness to Learn", "score": 8},
-        {"name": "UI/UX Design", "score": 10},
-        {"name": "Problem Solving", "score": 9}
-    ]
-}
+# Fetch company-specific skills from API
+def fetch_coop_skills(company, co_op):
+    try:
+        response = requests.get(f"{API_BASE}/companies/{company}/coops/{co_op}/skills")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching skills for {company} and {co_op}: {e}")
+        return []
+    
+# Fetch student-specific skills from API
+def fetch_student_skills(student_id):
+    try:
+        response = requests.get(f"{API_BASE}/students/{student_id}/skills")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching student skills: {e}")
+        return []
+    
+# User ID placeholder
+student_id = 1 # Example logged-in student
 
-# Define user skills
-user_skills = [
-    {"name": "Python", "score": 8},
-    {"name": "Java", "score": 7},
-    {"name": "Leadership", "score": 3},
-    {"name": "Discipline", "score": 5},
-    {"name": "JavaScript", "score": 5},
-    {"name": "React", "score": 2},
-    {"name": "SQL", "score": 2}
-]
-
-# Fetch company-specific skills based on selection
-company_skills = company_skills_data.get(company_name, [])
+# Get skills data
+coop_skills = fetch_coop_skills(company_name, co_op_role)
+student_skills = fetch_student_skills(student_id)
 
 # Skill Comparison Table
 st.subheader("Skill Comparison")
-comparison_data = []
-for user_skill, company_skill in zip(user_skills, company_skills):
-    comparison_data.append(
-        {
-            "User Skill": user_skill["name"],
-            "User Score": user_skill["score"],
-            "Company Skill": company_skill["name"],
-            "Company Score": company_skill["score"]
-        }
-    )
-
-st.table(comparison_data)
-
-# Add Skill (Optional)
-st.text_input("Add Skill")
+if coop_skills and student_skills:
+    comparison_data = []
+    for student_skill in student_skills:
+        # Find matching skill in company co-op skills
+        matching_skill = next(
+            (skill for skill in coop_skills if skill["name"] == student_skill["name"]), None
+        )
+        comparison_data.append(
+            {
+                "Student Skill": student_skill["name"]
+                "Student Proficiency": student_skill["proficiency"],
+                "Required Skill": matching_skill["name"] if mathcing_skill else "N/A",
+                "Required Proficiency": matching_skill["proficiency"] if matching_skill else "N/A",
+            }
+        )
+    st.table(comparison_data)
+else:
+    st.warning("No skills available for comparison.")
 
 # User Comments Section
 st.subheader("User Comments")
