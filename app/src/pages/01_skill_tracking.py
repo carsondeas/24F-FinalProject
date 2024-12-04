@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Set the API base URL
-API_BASE = "http://web-api:4000"  # Ensure this matches your Docker setup
+API_BASE = "http://0.0.0.0:8501"  # Ensure this matches our Docker setup
 
 # Page configuration
 st.set_page_config(
@@ -20,7 +20,7 @@ job_filter = st.selectbox("Select Job Role", ["Software Developer", "Data Scient
 # Fetch user skills
 def fetch_user_skills(user_id):
     try:
-        response = requests.get(f"{API_BASE}/student/StudentSkills/{user_id}")
+        response = requests.get(f"{API_BASE}/student/user_skills/{user_id}")
         response.raise_for_status()
         return response.json()
     except Exception as e:
