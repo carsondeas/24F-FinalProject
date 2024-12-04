@@ -94,7 +94,7 @@ INSERT INTO Course (description, name, professorID) VALUES
 ('English Composition', 'ENGW1111', 18),     -- courseID = 18
 ('Business Management', 'BUSN1101', 19),     -- courseID = 19
 ('Advanced Machine Learning', 'CS5100', 6),  -- courseID = 20
-'Big Data Analytics', 'DS4200', 7),          -- courseID = 21
+('Big Data Analytics', 'DS4200', 7),          -- courseID = 21
 ('Network Security', 'CY3550', 8),           -- courseID = 22
 ('Mobile App Development', 'CS5520', 23),    -- courseID = 23
 ('Cloud Computing', 'CS5610', 24),           -- courseID = 24
@@ -170,153 +170,46 @@ INSERT INTO Course_Skill (skillID, courseID, proficiencyLevel) VALUES
 (3, 10, 4),    -- C++ for CS4500
 (9, 11, 5),    -- Artificial Intelligence for CS4120
 (5, 11, 5),    -- Machine Learning for CS4120
-(10,12,5),     -- Software Engineering for CS4800
-(27,12,4),     -- Project Management for CS4800
-(18,13,5),     -- Mathematics for MATH1341
-(19,14,5),     -- Physics for PHYS1151
-(20,15,5),     -- Biology for BIOL1111
-(21,16,5),     -- Chemistry for CHEM2311
-(22,17,5),     -- Psychology for PSYC1101
-(23,18,5),     -- Writing for ENGW1111
-(25,19,5),     -- Business Management for BUSN1101
-(5,20,5),      -- Machine Learning for CS5100
-(16,21,5),     -- Big Data for DS4200
-(6,21,5),      -- Data Analysis for DS4200
-(7,22,5),      -- Cybersecurity for CY3550
-(15,22,4),     -- Networking for CY3550
-(2,23,5),      -- Java for CS5520
-(8,23,5),      -- Web Development for CS5520
-(17,24,5),     -- Cloud Computing for CS5610
-(4,24,4),      -- SQL for CS5610
-(14,25,5),     -- Operating Systems for CS3700
-(13,25,4),     -- Computer Architecture for CS3700
-(5,26,5),      -- Machine Learning for CS6200
-(9,26,5),      -- Artificial Intelligence for CS6200
-(6,27,5),      -- Data Analysis for DS4300
-(16,27,5),     -- Big Data for DS4300
-(7,28,5),      -- Cybersecurity for CY4500
-(29,28,4),     -- Critical Thinking for CY4500
-(3,29,5),      -- C++ for CS4620
-(13,29,5),     -- Computer Architecture for CS4620
-(9,30,5),      -- Artificial Intelligence for CS6120
-(23,39,5),     -- Writing for ENGW3302
-(26,31,4),     -- Leadership for CS4810
-(27,31,5),     -- Project Management for CS4810
-(18,32,5),     -- Mathematics for MATH2331
-(18,33,5),     -- Mathematics for MATH2341
-(18,34,5),     -- Mathematics for MATH3081
-(19,35,5),     -- Physics for PHYS2303
-(20,36,5),     -- Biology for BIOL2301
-(21,37,5),     -- Chemistry for CHEM3401
-(22,38,5),     -- Psychology for PSYC3404
-(6,40,3),      -- Data Analysis for BUSN2401
-(25,40,4),     -- Business Management for BUSN2401
--- Add aditional 60 entries to reach 100 row guideline
-(1,20,5),
-(5,20,5),
-(6,20,4),
-(1,26,5),
-(5,26,5),
-(6,26,4),
-(1,11,5),
-(9,11,5),
-(6,11,4),
-(2,23,5),
-(12,23,5),
-(8,23,5),
-(17,24,5),
-(6,24,4),
-(4,1,5),
-(1,4,4),
-(12,4,4),
-(11,2,5),
-(1,2,4),
-(10,12,5),
-(27,12,4),
-(13,10,5),
-(14,25,5),
-(15,22,5),
-(7,22,5),
-(16,21,5),
-(6,21,5),
-(9,30,5),
-(6,30,4),
-(27,31,5),
-(26,31,4),
-(18,32,5),
-(18,33,5),
-(18,34,5),
-(16,27,5),
-(6,27,5),
-(7,28,5),
-(29,28,4),
-(23,39,5),
-(23,18,5),
-(11,19,3),
-(6,19,3),
-(9,11,5),
-(5,11,5),
-(5,6,5),
-(1,6,4),
-(1,5,4),
-(13,5,4),
-(1,4,4),
-(12,4,4),
-(4,1,5),
-(1,1,5),
-(6,1,4),
-(9,6,5),
-(6,6,5),
-(5,6,5),
-(6,7,5),
-(16,7,5),
-(6,21,5),
-(16,21,5),
-(4,24,5),
-(17,24,5),
-(1,24,4),
-(3,29,5),
-(13,29,5),
-(14,25,5),
-(13,25,4),
-(1,19,3),
-(4,1,5),
-(2,1,4),
-(5,26,5),
-(6,26,5),
-(1,26,5),
-(9,11,5),
-(1,11,4),
-(6,11,4),
-(5,30,5),
-(1,30,4),
-(6,30,4),
-(7,28,5),
-(15,28,4),
-(5,20,5),
-(1,20,5),
-(6,20,4),
-(5,6,5),
-(1,6,4),
-(6,6,4),
-(7,22,5),
-(15,22,5),
-(5,26,5),
-(9,26,5),
-(6,26,4),
-(16,27,5),
-(6,27,5),
-(1,27,4),
-(9,30,5),
-(5,30,5),
-(6,30,4),
-(27,31,5),
-(26,31,4),
-(13,10,5),
-(3,10,4),
-(5,20,5),
-(9,20,5),
-(6,20,4);
+(10, 12, 5),   -- Software Engineering for CS4800
+(27, 12, 4),   -- Project Management for CS4800
+(18, 13, 5),   -- Mathematics for MATH1341
+(19, 14, 5),   -- Physics for PHYS1151
+(20, 15, 5),   -- Biology for BIOL1111
+(21, 16, 5),   -- Chemistry for CHEM2311
+(22, 17, 5),   -- Psychology for PSYC1101
+(23, 18, 5),   -- Writing for ENGW1111
+(25, 19, 5),   -- Business Management for BUSN1101
+(5, 20, 5),    -- Machine Learning for CS5100
+(16, 21, 5),   -- Big Data for DS4200
+(6, 21, 5),    -- Data Analysis for DS4200
+(7, 22, 5),    -- Cybersecurity for CY3550
+(15, 22, 4),   -- Networking for CY3550
+(2, 23, 5),    -- Java for CS5520
+(8, 23, 5),    -- Web Development for CS5520
+(17, 24, 5),   -- Cloud Computing for CS5610
+(4, 24, 4),    -- SQL for CS5610
+(14, 25, 5),   -- Operating Systems for CS3700
+(13, 25, 4),   -- Computer Architecture for CS3700
+(9, 26, 5),    -- Artificial Intelligence for CS6200
+(6, 27, 5),    -- Data Analysis for DS4300
+(16, 27, 5),   -- Big Data for DS4300
+(7, 28, 5),    -- Cybersecurity for CY4500
+(29, 28, 4),   -- Critical Thinking for CY4500
+(3, 29, 5),    -- C++ for CS4620
+(13, 29, 5),   -- Computer Architecture for CS4620
+(9, 30, 5),    -- Artificial Intelligence for CS6120
+(23, 39, 5),   -- Writing for ENGW3302
+(26, 31, 4),   -- Leadership for CS4810
+(27, 31, 5),   -- Project Management for CS4810
+(18, 32, 5),   -- Mathematics for MATH2331
+(18, 33, 5),   -- Mathematics for MATH2341
+(18, 34, 5),   -- Mathematics for MATH3081
+(19, 35, 5),   -- Physics for PHYS2303
+(20, 36, 5),   -- Biology for BIOL2301
+(21, 37, 5),   -- Chemistry for CHEM3401
+(22, 38, 5),   -- Psychology for PSYC3404
+(6, 40, 3),    -- Data Analysis for BUSN2401
+(25, 40, 4);   -- Business Management for BUSN2401
 
 
 -- Insert data into Student
@@ -511,50 +404,19 @@ INSERT INTO Student_Course (NUID, courseID) VALUES
 (20,5),
 (20,12),
 (21,6),
-(21,7),
-(21,27),
-(22,8),
-(22,22),
-(22,28),
 (23,6),
 (23,20),
 (23,26),
 (24,2),
 (24,5),
-(24,12),
-(25,9),
-(25,23),
-(25,24),
-(26,10),
-(26,29),
 (26,25),
 (27,6),
-(27,21),
-(27,27),
-(28,8),
-(28,22),
-(28,28),
-(29,1),
 (29,2),
-(29,4),
-(30,5),
 (30,6),
-(30,12),
-(31,6),
-(31,11),
-(31,12),
-(32,10),
-(32,29),
 (32,25),
-(33,12),
-(33,31),
 (33,25),
 (34,5),
-(34,6),
-(34,11),
-(35,7),
-(35,21),
-(35,27);
+(34,11);
 
 -- Insert data into Student_Skill
 INSERT INTO Student_Skill (skillID, NUID, proficiencyLevel) VALUES
@@ -654,7 +516,7 @@ INSERT INTO Student_Skill (skillID, NUID, proficiencyLevel) VALUES
 (16, 27, 4), -- Big Data for Ava Allen
 (6, 28, 4),  -- Data Analysis for Benjamin Young
 (10, 29, 4), -- Software Engineering for Charlotte Hill
-(27, 30, 4), -- Project Management for Daniel Adams
+(27, 30, 4); -- Project Management for Daniel Adams
 
 -- Insert data into CoOp
 INSERT INTO CoOp (jobTitle, companyName, industry) VALUES
@@ -829,27 +691,7 @@ INSERT INTO CoOp_Skill (skillID, jobID, proficiencyLevel) VALUES
 -- jobID 24: Product Management Intern at Salesforce
 (27, 24, 5), -- Project Management
 (25, 24, 5), -- Business Management
-(29, 24, 4), -- Critical Thinking
-
--- Adding additional rows for multiple skills per jobID
-(7, 3, 4),    -- Additional Cybersecurity for jobID 3
-(1, 4, 4),    -- Python for jobID 4
-(4, 5, 5),    -- SQL for jobID 5
-(9, 6, 5),    -- AI for jobID 6
-(10, 7, 5),   -- Software Engineering for jobID 7
-(17, 8, 5),   -- Cloud Computing for jobID 8
-(1, 9, 5),    -- Python for jobID 9
-(15, 10, 4),  -- Networking for jobID 10
-(2, 11, 5),   -- Java for jobID 11
-(8, 12, 5),   -- Web Development for jobID 12
-(14, 13, 5),  -- Operating Systems for jobID 13
-(27, 14, 4),  -- Project Management for jobID 14
-(30, 15, 4),  -- Problem Solving for jobID 15
-(4, 16, 5),   -- SQL for jobID 16
-(2, 17, 5),   -- Java for jobID 17
-(12, 18, 4),  -- Data Structures for jobID 18
-(1, 19, 5),   -- Python for jobID 19
-(7, 20, 5);   -- Cybersecurity for jobID 20
+(29, 24, 4); -- Critical Thinking
 
 
 -- Insert data into Employer
@@ -888,7 +730,7 @@ INSERT INTO Employer (contactEmail, contactPhone, contactName, industry) VALUES
 ('hr@paloaltonetworks.com', '408-555-1234', 'Palo Alto Networks HR', 'Tech'), -- employerID = 32
 ('hr@intel.com', '408-555-6789', 'Intel HR', 'Tech'),                  -- employerID = 33
 ('hr@amazonalexa.com', '206-555-3456', 'Amazon Alexa HR', 'Tech'),     -- employerID = 34
-('hr@qualcomm.com', '858-555-4321', 'Qualcomm HR', 'Tech'),            -- employerID = 35;
+('hr@qualcomm.com', '858-555-4321', 'Qualcomm HR', 'Tech');            -- employerID = 35;
 
 -- Insert data into Employer_CoOp
 INSERT INTO Employer_CoOp (employerID, jobID) VALUES
@@ -933,28 +775,11 @@ INSERT INTO Employer_CoOp (employerID, jobID) VALUES
 (33, 34), -- Amazon Alexa offers NLP Intern
 (34, 35), -- Qualcomm offers Embedded Systems Intern
 (35, 1),  -- Microsoft offers another Software Developer Intern
-
--- Add additional entries to reach at least 100
 (4, 36),  -- Amazon Blockchain Developer Intern
 (9, 8),   -- IBM Cloud Computing Intern
-(15, 15), -- Dropbox QA Intern
-(25, 25), -- Dell IT Support Intern
-(6, 28),  -- OpenAI AI Research Intern
-(7, 7),   -- Apple Software Engineer Intern
 (9, 9),   -- IBM Data Scientist Intern
-(26, 26), -- Pinterest UX/UI Designer Intern
-(10, 10), -- Juniper Networks Network Engineer Intern
-(17, 17), -- Uber Mobile App Developer Intern
 (29, 29), -- Boston Dynamics Robotics Intern
-(1, 1),   -- Microsoft Software Developer Intern
-(13, 13), -- Red Hat DevOps Engineer Intern
-(8, 31),  -- Google Machine Learning Engineer Intern
-(14, 14), -- Oracle Systems Analyst Intern
-(21, 21), -- Deloitte Business Analyst Intern
-(5, 5),   -- Twitter Web Developer Intern
-(3, 3),   -- Cisco Cybersecurity Analyst Intern
-(27, 27), -- VMware Cloud Infrastructure Intern
-(22, 22), -- Goldman Sachs Financial Analyst Intern;
+(8, 31);  -- Google Machine Learning Engineer Intern
 
 -- Insert data into CoOpAdvisor
 INSERT INTO CoOpAdvisor (email, name, departmentID) VALUES
@@ -1135,255 +960,6 @@ INSERT INTO AdvisorEmployer (employerID, advisorID) VALUES
 (34, 7),  -- Amazon Alexa also assigned to Sophia Davis
 (35, 8),  -- Qualcomm assigned to Mia Johnson
 (35, 9),  -- Qualcomm also assigned to Henry Brown
-(8, 14),  -- Google assigned to Emma King
 (8, 2),   -- Google also assigned to Michael Clark
 (7, 17),  -- Apple assigned to William Gonzales
-(5, 8),   -- Twitter assigned to Mia Johnson
-(15, 28), -- Dropbox assigned to Henry Thompson
-(14, 24), -- Oracle assigned to Lucas Martin
-(12, 23), -- Adobe assigned to Amelia Taylor
-(10, 19), -- Juniper Networks assigned to Harper Adams
-(9, 16),  -- IBM assigned to Ava Lopez
-(11, 22), -- LinkedIn assigned to Mason Lee
-(17, 27), -- Uber assigned to Abigail Harris
-(20, 10), -- Symantec assigned to Isabella Wilson
-(30, 1),  -- Tableau assigned to Emily Reed
-(25, 15), -- Dell assigned to Benjamin Wright
-(19, 6),  -- Spotify assigned to Liam Carter;
-
--- Insert data into Course_Professor
-INSERT INTO Course_Professor (courseID, professorID) VALUES
-(1, 1),  -- CS3200 taught by John Doe
-(1, 4),  -- CS3200 also taught by Emma Johnson
-(2, 1),  -- CS3000 taught by John Doe
-(2, 5),  -- CS3000 also taught by Michael Lee
-(3, 2),  -- FINA3301 taught by Alice Smith
-(4, 4),  -- CS2500 taught by Emma Johnson
-(5, 5),  -- CS3650 taught by Michael Lee
-(6, 6),  -- CS4100 taught by Sophia Carter
-(7, 7),  -- DS4100 taught by David Brown
-(8, 8),  -- CY2550 taught by Olivia Davis
-(9, 9),  -- IS2000 taught by William Wilson
-(10, 10), -- CS4500 taught by James Taylor
-(11, 11), -- CS4120 taught by Isabella Martinez
-(12, 12), -- CS4800 taught by Benjamin Moore
-(13, 13), -- MATH1341 taught by Charlotte Thomas
-(14, 14), -- PHYS1151 taught by Henry Jackson
-(15, 15), -- BIOL1111 taught by Grace Martin
-(16, 16), -- CHEM2311 taught by Alexander Lee
-(17, 17), -- PSYC1101 taught by Amelia Harris
-(18, 18), -- ENGW1111 taught by Lucas Clark
-(19, 19), -- BUSN1101 taught by Mia Rodriguez
-(20, 6),  -- CS5100 taught by Sophia Carter
-(21, 7),  -- DS4200 taught by David Brown
-(22, 8),  -- CY3550 taught by Olivia Davis
-(23, 9),  -- CS5520 taught by William Wilson
-(24, 10), -- CS5610 taught by James Taylor
-(25, 5),  -- CS3700 taught by Michael Lee
-(26, 6),  -- CS6200 taught by Sophia Carter
-(27, 7),  -- DS4300 taught by David Brown
-(28, 8),  -- CY4500 taught by Olivia Davis
-(29, 10), -- CS4620 taught by James Taylor
-(30, 11), -- CS6120 taught by Isabella Martinez
-(31, 12), -- CS4810 taught by Benjamin Moore
-(32, 13), -- MATH2331 taught by Charlotte Thomas
-(33, 13), -- MATH2341 taught by Charlotte Thomas
-(34, 13), -- MATH3081 taught by Charlotte Thomas
-(35, 14), -- PHYS2303 taught by Henry Jackson
-(36, 15), -- BIOL2301 taught by Grace Martin
-(37, 16), -- CHEM3401 taught by Alexander Lee
-(38, 17), -- PSYC3404 taught by Amelia Harris
-(39, 18), -- ENGW3302 taught by Lucas Clark
-(40, 19), -- BUSN2401 taught by Mia Rodriguez
-(1, 2),   -- CS3200 also taught by Alice Smith
-(2, 3),   -- CS3000 also taught by Bob Wong
-(3, 5),   -- FINA3301 also taught by Michael Lee
-(4, 1),   -- CS2500 also taught by John Doe
-(5, 2),   -- CS3650 also taught by Alice Smith
-(6, 3),   -- CS4100 also taught by Bob Wong
-(7, 4),   -- DS4100 also taught by Emma Johnson
-(8, 5),   -- CY2550 also taught by Michael Lee
-(9, 6),   -- IS2000 also taught by Sophia Carter
-(10, 7),  -- CS4500 also taught by David Brown
-(11, 8),  -- CS4120 also taught by Olivia Davis
-(12, 9),  -- CS4800 also taught by William Wilson
-(13, 10), -- MATH1341 also taught by James Taylor
-(14, 11), -- PHYS1151 also taught by Isabella Martinez
-(15, 12), -- BIOL1111 also taught by Benjamin Moore
-(16, 13), -- CHEM2311 also taught by Charlotte Thomas
-(17, 14), -- PSYC1101 also taught by Henry Jackson
-(18, 15), -- ENGW1111 also taught by Grace Martin
-(19, 16), -- BUSN1101 also taught by Alexander Lee
-(20, 17), -- CS5100 also taught by Amelia Harris
-(21, 18), -- DS4200 also taught by Lucas Clark
-(22, 19), -- CY3550 also taught by Mia Rodriguez
-(23, 12), -- CS5520 also taught by Benjamin Moore
-(24, 13), -- CS5610 also taught by Charlotte Thomas
-(25, 14), -- CS3700 also taught by Henry Jackson
-(26, 15), -- CS6200 also taught by Grace Martin
-(27, 16), -- DS4300 also taught by Alexander Lee
-(28, 17), -- CY4500 also taught by Amelia Harris
-(29, 18), -- CS4620 also taught by Lucas Clark
-(30, 19), -- CS6120 also taught by Mia Rodriguez
-(31, 10), -- CS4810 also taught by James Taylor
-(32, 11), -- MATH2331 also taught by Isabella Martinez
-(33, 12), -- MATH2341 also taught by Benjamin Moore
-(34, 13), -- MATH3081 also taught by Charlotte Thomas
-(35, 14), -- PHYS2303 also taught by Henry Jackson
-(36, 15), -- BIOL2301 also taught by Grace Martin
-(37, 16), -- CHEM3401 also taught by Alexander Lee
-(38, 17), -- PSYC3404 also taught by Amelia Harris
-(39, 18), -- ENGW3302 also taught by Lucas Clark
-(40, 19); -- BUSN2401 also taught by Mia Rodriguez
-
--- Insert data into Student_Employer
-INSERT INTO Student_Employer (NUID, employerID) VALUES
--- Alice Green (NUID = 1)
-(1, 1),  -- Microsoft
-(1, 4),  -- Amazon
-(1, 8),  -- Google
-
--- Bob Brown (NUID = 2)
-(2, 22), -- Goldman Sachs
-(2, 21), -- Deloitte
-(2, 23), -- Procter & Gamble
-
--- Charlie White (NUID = 3)
-(3, 3),  -- Cisco
-(3, 10), -- Juniper Networks
-(3, 32), -- Palo Alto Networks
-
--- David Smith (NUID = 4)
-(4, 1),  -- Microsoft
-(4, 7),  -- Apple
-(4, 13), -- Red Hat
-
--- Emily Johnson (NUID = 5)
-(5, 9),  -- IBM
-(5, 19), -- Spotify
-(5, 30), -- Tableau
-
--- Frank Williams (NUID = 6)
-(6, 3),  -- Cisco
-(6, 20), -- Symantec
-(6, 32), -- Palo Alto Networks
-
--- Grace Davis (NUID = 7)
-(7, 5),  -- Twitter
-(7, 12), -- Adobe
-(7, 26), -- Pinterest
-
--- Henry Miller (NUID = 8)
-(8, 10), -- Juniper Networks
-(8, 14), -- Oracle
-(8, 27), -- VMware
-
--- Isabella Wilson (NUID = 9)
-(9, 6),  -- OpenAI
-(9, 7),  -- Apple
-(9, 28), -- Tesla
-
--- Jack Anderson (NUID = 10)
-(10, 11), -- LinkedIn
-(10, 24), -- Salesforce
-(10, 8),  -- Google
-
--- Karen Thomas (NUID = 11)
-(11, 13), -- Red Hat
-(11, 16), -- SAP
-(11, 30), -- Tableau
-
--- Liam Jackson (NUID = 12)
-(12, 14), -- Oracle
-(12, 35), -- Qualcomm
-(12, 10), -- Juniper Networks
-
--- Mia Martin (NUID = 13)
-(13, 15), -- Dropbox
-(13, 18), -- Electronic Arts
-(13, 4),  -- Amazon
-
--- Noah Lee (NUID = 14)
-(14, 16), -- SAP
-(14, 27), -- VMware
-(14, 9),  -- IBM
-
--- Olivia Perez (NUID = 15)
-(15, 17), -- Uber
-(15, 26), -- Pinterest
-(15, 19), -- Spotify
-
--- Paul Young (NUID = 16)
-(16, 23), -- Procter & Gamble
-(16, 24), -- Salesforce
-(16, 6),  -- OpenAI
-
--- Quinn Hernandez (NUID = 17)
-(17, 22), -- Goldman Sachs
-(17, 21), -- Deloitte
-(17, 11), -- LinkedIn
-
--- Rachel King (NUID = 18)
-(18, 5),  -- Twitter
-(18, 1),  -- Microsoft
-(18, 8),  -- Google
-
--- Samuel Scott (NUID = 19)
-(19, 2),  -- Facebook
-(19, 6),  -- OpenAI
-(19, 9),  -- IBM
-
--- Taylor Green (NUID = 20)
-(20, 4),  -- Amazon
-(20, 6),  -- OpenAI
-(20, 30), -- Tableau
-
--- Uma Harris (NUID = 21)
-(21, 27), -- VMware
-(21, 18), -- Electronic Arts
-(21, 19), -- Spotify
-
--- Victor Clark (NUID = 22)
-(22, 32), -- Palo Alto Networks
-(22, 33), -- Intel
-(22, 15), -- Dropbox
-
--- Wendy Lewis (NUID = 23)
-(23, 34), -- Amazon Alexa
-(23, 35), -- Qualcomm
-(23, 10), -- Juniper Networks
-
--- Xavier Robinson (NUID = 24)
-(24, 3),  -- Cisco
-(24, 12), -- Adobe
-(24, 14), -- Oracle
-
--- Yvonne Walker (NUID = 25)
-(25, 5),  -- Twitter
-(25, 13), -- Red Hat
-(25, 16), -- SAP
-
--- Zachary Hall (NUID = 26)
-(26, 1),  -- Microsoft
-(26, 7),  -- Apple
-(26, 8),  -- Google
-
--- Ava Allen (NUID = 27)
-(27, 19), -- Spotify
-(27, 12), -- Adobe
-(27, 4),  -- Amazon
-
--- Benjamin Young (NUID = 28)
-(28, 24), -- Salesforce
-(28, 8),  -- Google
-(28, 30), -- Tableau
-
--- Charlotte Hill (NUID = 29)
-(29, 1),  -- Microsoft
-(29, 27), -- VMware
-(29, 26), -- Pinterest
-
--- Daniel Adams (NUID = 30)
-(30, 2),  -- Facebook
-(30, 6),  -- OpenAI
-(30, 12); -- Adobe
+(14, 24); -- Oracle assigned to Lucas Martin
