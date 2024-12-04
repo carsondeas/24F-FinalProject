@@ -17,14 +17,14 @@ def create_app():
     load_dotenv()
 
     # Secret key for signing cookies and other security purposes
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
     # Database configurations
-    app.config['MYSQL_DATABASE_USER'] = os.getenv('DB_USER', 'root').strip()
-    app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD', 'skillseekerpassword').strip()
-    app.config['MYSQL_DATABASE_HOST'] = os.getenv('DB_HOST', 'db').strip()
-    app.config['MYSQL_DATABASE_PORT'] = int(os.getenv('DB_PORT', 3306))
-    app.config['MYSQL_DATABASE_DB'] = os.getenv('DB_NAME', 'skillseeker').strip()
+    app.config['MYSQL_DATABASE_USER'] = os.getenv('DB_USER').strip()
+    app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD').strip()
+    app.config['MYSQL_DATABASE_HOST'] = os.getenv('DB_HOST').strip()
+    app.config['MYSQL_DATABASE_PORT'] = int(os.getenv('DB_PORT'))
+    app.config['MYSQL_DATABASE_DB'] = os.getenv('DB_NAME').strip()
 
     # Initialize the database object with the settings
     app.logger.info('Initializing the database connection...')
