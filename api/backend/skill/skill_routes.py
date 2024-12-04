@@ -7,9 +7,9 @@ skills = Blueprint('skills', __name__)
 def get_all_skills():
     query = '''
         SELECT DISTINCT Skill.name
-        FROM Student_Skill 
-        JOIN Skill 
-        ON Skill.skillID = Student_Skill.skillID
+        FROM Skill
+        JOIN Student_Skill
+        ON Student_Skill.skillID = Skill.skillID
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
