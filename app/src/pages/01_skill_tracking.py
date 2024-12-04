@@ -14,8 +14,15 @@ st.set_page_config(
 
 st.title("Skill Tracking and Trends")
 
-# Job filter dropdown
-job_filter = st.selectbox("Select Job Role", ["Software Developer", "Data Scientist", "Marketing Analyst"])
+# Fetch job titles from API
+def fetch_job_titles():
+    try:
+        response = requests.get(f"{API_BASE}/coop/job_titles")
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        st.error(f"Error fetching job titles: {e}")
+        return []
 
 # Fetch user skills
 def fetch_user_skills(user_id):
@@ -31,7 +38,7 @@ def fetch_user_skills(user_id):
 # Fetch all available skills
 def fetch_all_skills():
     try:
-        response = requests.get(f"{API_BASE}/skills")
+        response = requests.get(f"{API_BASE}/skills/skills")
         response.raise_for_status()
         return [skill["skill"] for skill in response.json()]
     except Exception as e:
