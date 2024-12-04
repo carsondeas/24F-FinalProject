@@ -37,7 +37,7 @@ def get_student_details(NUID):
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
-@students.route('/skill', methods=['POST'])
+@students.route('/addskill', methods=['POST'])
 def add_skill_for_student():
     """
     Add a new skill for a student.
@@ -73,48 +73,42 @@ def add_skill_for_student():
         return {"error": f"An error occurred: {str(e)}"}, 500
 
 
-@students.route('/<int:NUID>/skillsupdate', methods=['PUT'])
-def update_student_skill(NUID,proficiencyLevel):
-    """
-    Update an existing skill for a student.
 
-    Args:
-        NUID (int): The student's unique ID.
-    Request Body:
-        {
-            "skillID": 1,
-            "proficiencyLevel": 5
-        }
+@students.route('/updateskill', methods=['PUT'])
+def update_skill_for_student():
     """
-    data = request.json
-    cursor = db.get_db().cursor()
+    Add a new skill for a student.
+    """
+    # Collecting data from the request object
+    the_data = request.json
 
+    # Extracting the variables
+    NUID = the_data.get('NUID')  # Student ID
+    SkillID = the_data.get('SkillID')  # Skill ID
+    ProficiencyLevel = the_data.get('ProficiencyLevel')  # Proficiency Level
+
+    # Validate input
+    if not all([NUID, SkillID, ProficiencyLevel]):
+        return {"error": "NUID, SkillID, and ProficiencyLevel are required."}, 400
+
+    # Constructing the query
+    query = '''
+        INSERT INTO Student_Skill (NUID, skillID, proficiencyLevel) 
+        VALUES (%s, %s, %s)
+    '''
+
+    # Executing and committing the query
     try:
-        # Check if the skill exists for the student
-        cursor.execute(
-            'SELECT * FROM Student_Skill WHERE NUID = %s AND skillID = %s',
-            (NUID, data['skillID'])
-        )
-        existing_skill = cursor.fetchone()
-
-        if not existing_skill:
-            return make_response({"error": "Skill does not exist for this student."}, 404)
-
-        # Update the proficiency level for the existing skill
-        cursor.execute(
-            'UPDATE Student_Skill SET proficiencyLevel = %s WHERE NUID = %s AND skillID = %s',
-            (data['proficiencyLevel'], NUID, data['skillID'])
-        )
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (NUID, SkillID, ProficiencyLevel))
         db.get_db().commit()
 
-        return make_response({"message": "Skill updated successfully."}, 200)
-
+        return {"message": "Skill added successfully."}, 201
     except Exception as e:
         db.get_db().rollback()
-        return make_response({"error": f"An error occurred: {e}"}, 500)
+        current_app.logger.error(f"Error adding skill: {e}")
+        return {"error": f"An error occurred: {str(e)}"}, 500
 
-    finally:
-        cursor.close()
 
 
 # Remove a student from the database
