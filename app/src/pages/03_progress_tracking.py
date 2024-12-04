@@ -3,9 +3,12 @@ import requests
 
 API_BASE = "http://web-api:4000"
 
-st.set_page_config(page_title="Progress Tracking",
-                   page_icon="📈",
-                   layout="wide")
+st.set_page_config(
+    page_title="Progress Tracking",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 st.title("Progress Tracking")
 
