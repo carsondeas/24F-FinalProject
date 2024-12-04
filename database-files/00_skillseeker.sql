@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS skillseeker;
 
 USE skillseeker;
-
+-- Computer Science, Engineering, Finance, Communication, Health Sciences, Chemical Engineering, Civil Engineering, Mechanical Engineering, Information Technology, Chemistry, Physics, Math, Calculus
 CREATE TABLE IF NOT EXISTS Department (
     departmentID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255)
