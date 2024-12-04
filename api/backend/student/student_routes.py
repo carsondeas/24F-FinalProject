@@ -3,7 +3,7 @@ from backend.db_connection import db
 
 students = Blueprint('students', __name__)
 
-@students.route('/students', methods=['GET'])
+@students.route('/studentsgetall', methods=['GET'])
 def get_students():
     query = 'SELECT NUID, name, email, GPA, major FROM Student'
     cursor = db.get_db().cursor()
@@ -12,7 +12,7 @@ def get_students():
     return make_response(jsonify(data), 200)
 
 # Add a new student
-@students.route('/students', methods=['POST'])
+@students.route('/add', methods=['POST'])
 def add_student():
     data = request.json
     query = '''
@@ -24,13 +24,13 @@ def add_student():
     db.get_db().commit()
     return make_response("Student added successfully", 201)
 
-@students.route('/students/<NUID>/details', methods=['GET'])
+@students.route('/<int:NUID>/details', methods=['GET'])
 def get_student_details(NUID):
     query = '''
-        SELECT S.NUID, S.name, S.email, S.GPA, S.major, SK.skill
-        FROM Student S
-        LEFT JOIN Student_Skills SK ON S.NUID = SK.NUID
-        WHERE S.NUID = %s
+        SELECT Skill.name AS skill_name, Student_Skill.proficiencyLevel
+        FROM Student_Skill
+        JOIN Skill ON Student_Skill.skillID = Skill.skillID
+        WHERE Student_Skill.NUID = %s
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query, (NUID,))
@@ -38,7 +38,7 @@ def get_student_details(NUID):
     return make_response(jsonify(data), 200)
 
 # Update a student's skills or profile
-@students.route('/students/<NUID>', methods=['PUT'])
+@students.route('/<NUID>', methods=['PUT'])
 def update_student(NUID):
     data = request.json
     cursor = db.get_db().cursor()
@@ -61,7 +61,7 @@ def update_student(NUID):
     return make_response("Student updated successfully", 200)
 
 # Remove a student from the database
-@students.route('/students/<NUID>', methods=['DELETE'])
+@students.route('/<NUID>', methods=['DELETE'])
 def delete_student(NUID):
     query = 'DELETE FROM Student WHERE NUID = %s'
     cursor = db.get_db().cursor()

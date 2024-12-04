@@ -3,20 +3,18 @@ from backend.db_connection import db
 
 skills = Blueprint('skills', __name__)
 
-@skills.route('/skills', methods=['GET'])
+@skills.route('/all', methods=['GET'])
 def get_all_skills():
     query = '''
         SELECT DISTINCT Skill.name
         FROM Skill
-        JOIN Student_Skill
-        ON Student_Skill.skillID = Skill.skillID
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
-@skills.route('/skills', methods=['POST'])
+@skills.route('/add', methods=['POST'])
 def add_skill():
     data = request.json
     query = 'INSERT INTO Skills (skill) VALUES (%s)'

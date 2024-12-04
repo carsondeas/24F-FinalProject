@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Set the API base URL
-API_BASE = "http://web-api:4000"  # Ensure this matches your Docker setup
+API_BASE = "http://localhost:4000"  # Ensure this matches your Docker setup
 
 # Page configuration
 st.set_page_config(
@@ -12,7 +12,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("Skill Tracking and Trends")
 
 # Fetch job titles from API
 def fetch_job_titles():
@@ -25,12 +24,12 @@ def fetch_job_titles():
         return []
 
 # Fetch user skills
-def fetch_user_skills(user_id):
+def fetch_user_skills(nuid):
     try:
-        response = requests.get(f"{API_BASE}/students/{user_id}/details")
+        response = requests.get(f"{API_BASE}/students/{nuid}/details")
         response.raise_for_status()
         skills_data = response.json()
-        return [{"name": skill["skill"], "proficiency": skill.get("proficiency", "N/A")} for skill in skills_data]
+        return skills_data
     except Exception as e:
         st.error(f"Error fetching user skills: {e}")
         return []
@@ -38,18 +37,18 @@ def fetch_user_skills(user_id):
 # Fetch all available skills
 def fetch_all_skills():
     try:
-        response = requests.get(f"{API_BASE}/skills/skills")
+        response = requests.get(f"{API_BASE}/skills/all")
         response.raise_for_status()
-        return [skill["skill"] for skill in response.json()]
-    except Exception as e:
-        st.error(f"Error fetching skills: {e}")
+        return response.json()  # Parse JSON response
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching students: {e}")
         return []
 
 # Add a new skill for the user
 def add_user_skill(user_id, skill_name):
     payload = {"skill": skill_name}
     try:
-        response = requests.post(f"{API_BASE}/skills", json=payload)
+        response = requests.post(f"{API_BASE}/skills/add", json=payload)
         response.raise_for_status()
         st.success(f"Skill '{skill_name}' added successfully!")
     except Exception as e:
