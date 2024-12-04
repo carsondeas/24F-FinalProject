@@ -22,4 +22,4 @@ if st.button('Skill Tracking',
 if st.button('Skill Comparison', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/02_Persona1_Screen2.py')
+  st.switch_page('pages/02_Skill_Comparison.py')
