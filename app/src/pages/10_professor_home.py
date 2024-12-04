@@ -16,10 +16,10 @@ st.write('')
 st.write("### What would you like to do today?")
 
 # Navigation Buttons
-if st.button('Curriculum Alignment',
+if st.button('Course Skill Alignment',
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/11_curriculum_alignment.py')
+    st.switch_page('pages/11_course_skill_alignment.py')
 
 if st.button('Skill Gap Analytics',
              type='primary',
