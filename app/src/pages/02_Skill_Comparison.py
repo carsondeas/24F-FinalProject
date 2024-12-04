@@ -59,9 +59,9 @@ if coop_skills and student_skills:
         )
         comparison_data.append(
             {
-                "Student Skill": student_skill["name"]
+                "Student Skill": student_skill["name"],
                 "Student Proficiency": student_skill["proficiency"],
-                "Required Skill": matching_skill["name"] if mathcing_skill else "N/A",
+                "Required Skill": matching_skill["name"] if matching_skill else "N/A",
                 "Required Proficiency": matching_skill["proficiency"] if matching_skill else "N/A",
             }
         )
