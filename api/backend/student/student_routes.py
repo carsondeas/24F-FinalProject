@@ -29,7 +29,7 @@ def get_student_details(NUID):
     query = '''
         SELECT S.NUID, S.name, S.email, S.GPA, S.major, SK.skill
         FROM Student S
-        LEFT JOIN StudentSkills SK ON S.NUID = SK.NUID
+        LEFT JOIN Student_Skills SK ON S.NUID = SK.NUID
         WHERE S.NUID = %s
     '''
     cursor = db.get_db().cursor()
@@ -44,9 +44,9 @@ def update_student(NUID):
     cursor = db.get_db().cursor()
     
     if 'skills' in data:
-        cursor.execute('DELETE FROM StudentSkills WHERE NUID = %s', (NUID,))
+        cursor.execute('DELETE FROM Student_Skills WHERE NUID = %s', (NUID,))
         for skill in data['skills']:
-            cursor.execute('INSERT INTO StudentSkills (NUID, skill) VALUES (%s, %s)', (NUID, skill))
+            cursor.execute('INSERT INTO Student_Skills (NUID, skill) VALUES (%s, %s)', (NUID, skill))
     
     if 'profile' in data:
         query = '''
