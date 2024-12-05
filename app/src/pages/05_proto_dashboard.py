@@ -19,7 +19,7 @@ st.title("Sarah's Dashboard for Skill Trends and Gaps")
 # Fetch all departments
 def fetch_departments():
     try:
-        response = requests.get(f"{API_BASE}/departments")
+        response = requests.get(f"{API_BASE}/departments/details")
         response.raise_for_status()
         departments = response.json()
         # Ensure unique departments based on departmentID
