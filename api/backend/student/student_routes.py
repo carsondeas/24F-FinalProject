@@ -11,6 +11,22 @@ def get_students():
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
+# Find student average proficiency level for each skill
+@students.route('/skills_avg_proficiency', methods=['GET'])
+def get_students_avg_proficiency():
+    query = '''
+        SELECT 
+            S.name AS skillName,
+            AVG(SS.proficiencyLevel) AS avgProficiencyLevel
+        FROM Student_Skill SS
+        JOIN Skill S ON SS.skillID = S.skillID
+        GROUP BY S.name
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    return make_response(jsonify([dict(row) for row in data]), 200)
+
 # Add a new student
 @students.route('/add', methods=['POST'])
 def add_student():

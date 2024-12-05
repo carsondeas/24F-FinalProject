@@ -22,6 +22,22 @@ def get_all_co_ops():
     data = cursor.fetchall()
     return make_response(jsonify([dict(row) for row in data]), 200)
 
+# Find coop average proficiency level for each skill
+@coops.route('/skills_avg_proficiency', methods=['GET'])
+def get_coops_avg_proficiency():
+    query = '''
+        SELECT 
+            S.name AS skillName,
+            AVG(CoOp_Skill.proficiencyLevel) AS avgProficiencyLevel,
+            COUNT(*) AS demandCount
+        FROM CoOp_Skill
+        JOIN Skill S ON CoOp_Skill.skillID = S.skillID
+        GROUP BY S.name
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    return make_response(jsonify([dict(row) for row in data]), 200)
 
 @coops.route('/name', methods=['GET'])
 def get_all_co_ops_name():
