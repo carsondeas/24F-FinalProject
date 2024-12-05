@@ -10,7 +10,7 @@ st.title("Course Skill Alignment")
 # Fetch Courses
 def fetch_courses():
     try:
-        response = requests.get(f"{API_BASE}/courses")
+        response = requests.get(f"{API_BASE}/courses/courses")
         response.raise_for_status()
         return response.json()
     except Exception as e:
@@ -20,7 +20,7 @@ def fetch_courses():
 # Fetch Co-op Skills
 def fetch_co_op_skills():
     try:
-        response = requests.get(f"{API_BASE}/co_ops")
+        response = requests.get(f"{API_BASE}/coops/co_ops")
         response.raise_for_status()
         return response.json()
     except Exception as e:
