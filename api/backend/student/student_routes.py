@@ -27,7 +27,7 @@ def add_student():
 @students.route('/<int:NUID>/details', methods=['GET'])
 def get_student_details(NUID):
     query = '''
-        SELECT Skill.name AS skill_name, Student_Skill.proficiencyLevel
+        SELECT Skill.name AS skill_name, Student_Skill.proficiencyLevel, Skill.skillID
         FROM Student_Skill
         JOIN Skill ON Student_Skill.skillID = Skill.skillID
         WHERE Student_Skill.NUID = %s
@@ -91,22 +91,41 @@ def update_skill_for_student():
     if not all([NUID, SkillID, ProficiencyLevel]):
         return {"error": "NUID, SkillID, and ProficiencyLevel are required."}, 400
 
-    # Constructing the query
-    query = '''
-        INSERT INTO Student_Skill (NUID, skillID, proficiencyLevel) 
+    # Check if the skill already exists for the student
+    query_check = '''
+        SELECT * FROM Student_Skill
+        WHERE NUID = %s AND skillID = %s
+    '''
+    query_update = '''
+        UPDATE Student_Skill
+        SET proficiencyLevel = %s
+        WHERE NUID = %s AND skillID = %s
+    '''
+    query_insert = '''
+        INSERT INTO Student_Skill (NUID, skillID, proficiencyLevel)
         VALUES (%s, %s, %s)
     '''
 
-    # Executing and committing the query
     try:
         cursor = db.get_db().cursor()
-        cursor.execute(query, (NUID, SkillID, ProficiencyLevel))
-        db.get_db().commit()
+        cursor.execute(query_check, (NUID, SkillID))
+        existing_skill = cursor.fetchone()
 
-        return {"message": "Skill added successfully."}, 201
+        if existing_skill:
+            # Skill exists, update proficiency level
+            cursor.execute(query_update, (ProficiencyLevel, NUID, SkillID))
+            message = "Skill updated successfully."
+        else:
+            # Skill does not exist, insert new skill
+            cursor.execute(query_insert, (NUID, SkillID, ProficiencyLevel))
+            message = "Skill added successfully."
+
+        db.get_db().commit()
+        return {"message": message}, 200
+
     except Exception as e:
         db.get_db().rollback()
-        current_app.logger.error(f"Error adding skill: {e}")
+        current_app.logger.error(f"Error adding or updating skill: {e}")
         return {"error": f"An error occurred: {str(e)}"}, 500
 
 

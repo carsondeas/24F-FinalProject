@@ -190,7 +190,7 @@ if selected_skills:
     if st.button("Update Skills"):
         for skill_name, proficiency_level in proficiency_levels.items():
             # Find the corresponding skillID
-            skill_id = next((skill["skillID"] for skill in all_skills if skill["name"] == skill_name), None)
+            skill_id = next((skill["skillId"] for skill in all_skills if skill["name"] == skill_name), None)
             
             # Prepare the payload for updating the skill
             payload = {
