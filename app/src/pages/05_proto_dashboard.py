@@ -19,9 +19,12 @@ st.title("Sarah's Dashboard for Skill Trends and Gaps")
 # Fetch all departments
 def fetch_departments():
     try:
-        response = requests.get(f"{API_BASE}/departments/details")
+        response = requests.get(f"{API_BASE}/departments")
         response.raise_for_status()
-        return response.json()
+        departments = response.json()
+        # Ensure unique departments based on departmentID
+        unique_departments = {dept['departmentID']: dept for dept in departments}.values()
+        return list(unique_departments)
     except Exception as e:
         st.error(f"Error fetching departments: {e}")
         return []
@@ -47,26 +50,25 @@ if departments:
     selected_department_name = st.selectbox("Select a Department", list(department_options.keys()))
     selected_department_id = department_options[selected_department_name]
 
-    # Show Department Details Button
+# Show Department Details Button
     if st.button("Show Department Details"):
         department_details = fetch_department_details(selected_department_id)
 
         if department_details:
             # Ensure expected fields are present in the API response
-            department_name = department_details.get('name', 'Unknown Name')
-            professors = department_details.get('professors', 'None')
-            courses = department_details.get('courses', 'None')
+            department_name = department_details.get('department_name', 'Unknown Name')
+            professors = department_details.get('professors', [])
+            courses = department_details.get('courses', [])
 
             # Display the department details
             st.write("### Department Details")
             st.write(f"**Name:** {department_name}")
-            st.write(f"**Professors:** {professors}")
-            st.write(f"**Courses:** {courses}")
+            st.write(f"**Professors:** {', '.join(professors) if professors else 'None'}")
+            st.write(f"**Courses:** {', '.join(courses) if courses else 'None'}")
         else:
             st.write("No details found for the selected department.")
-   
-    else:
-        st.warning("No departments available to select.")
+else:
+    st.warning("No departments available to select.")
 
 # Section 2: Courses and Associated Skills
 st.subheader("Courses and Associated Skills")

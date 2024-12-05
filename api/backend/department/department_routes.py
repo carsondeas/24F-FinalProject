@@ -6,8 +6,9 @@ departments = Blueprint('departments', __name__)
 @departments.route('/details', methods=['GET'])
 def get_all_departments():
     query = '''
-        SELECT departmentID, name
+        SELECT DISTINCT departmentID, name
         FROM Department
+        ORDER BY departmentID;
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -17,12 +18,15 @@ def get_all_departments():
 @departments.route('/<int:department_id>', methods=['GET'])
 def get_department_details(department_id):
     query = '''
-       SELECT D.departmentID, D.name
-        FROM Departments D
-        LEFT JOIN Professors P ON D.departmentID = P.departmentID
+        SELECT 
+            D.departmentID AS department_id, 
+            D.name AS department_name,
+            P.name AS professor_name,
+            C.name AS course_name
+        FROM Department D
+        LEFT JOIN Professor P ON D.departmentID = P.departmentID
         LEFT JOIN Course C ON P.professorID = C.professorID
         WHERE D.departmentID = %s
-        GROUP BY D.departmentID, D.name;
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query, (department_id,))
