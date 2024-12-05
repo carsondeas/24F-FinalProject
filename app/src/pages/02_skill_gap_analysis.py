@@ -40,15 +40,13 @@ def fetch_skills_for_job(job_title):
             st.warning(f"No skills found for Job ID {job_title}.")
             return pd.DataFrame()
 
-        # Convert skills data to a DataFrame
-        df = pd.DataFrame(job_skills)
-        df.columns = ["Job Title", "Company Name", "Industry", "Skill Name", "Proficiency Level"]
+         # Convert skills data to a DataFrame with explicit column headers
+        df = pd.DataFrame(job_skills, columns=["Job Title", "Company Name", "Industry", "Skill Name", "Proficiency Level"])
         return df
     
     except Exception as e:
         st.error(f"Error fetching skills for job: {e}")
         return pd.DataFrame()
-
 
 
 # Fetch all available skills
