@@ -138,3 +138,27 @@ def delete_student(NUID):
     cursor.execute(query, (NUID,))
     db.get_db().commit()
     return make_response("Student removed successfully", 200)
+
+@students.route('/<int:NUID>/skillsdelete', methods=['DELETE'])
+def delete_selected_user_skills(NUID):
+    """
+    Remove selected skills associated with a specific user.
+    """
+    # Get the list of skills to delete from the request body
+    skill_ids = request.json.get('SkillIDs', [])
+
+    if not skill_ids:
+        return make_response("No skills specified for deletion.", 400)
+
+    try:
+        query = 'DELETE FROM Student_Skill WHERE NUID = %s AND skillID IN ({})'.format(
+            ', '.join(['%s'] * len(skill_ids))
+        )
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (NUID, *skill_ids))
+        db.get_db().commit()
+        return make_response("Selected skills removed successfully.", 200)
+    except Exception as e:
+        db.get_db().rollback()
+        current_app.logger.error(f"Error removing selected skills for user {NUID}: {e}")
+        return make_response(f"An error occurred: {e}", 500)
