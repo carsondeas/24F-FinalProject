@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Course_Skill (
     proficiencyLevel INT,
     PRIMARY KEY (skillID, courseID),
     FOREIGN KEY (skillID) REFERENCES Skill(skillID),
-    FOREIGN KEY (courseID) REFERENCES Course(courseID)
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Student (
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Student_Course (
     courseID INT,
     PRIMARY KEY (NUID, courseID),
     FOREIGN KEY (NUID) REFERENCES Student(NUID),
-    FOREIGN KEY (courseID) REFERENCES Course(courseID)
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Student_Skill (

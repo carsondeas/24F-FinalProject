@@ -4,7 +4,7 @@ from backend.db_connection import db
 courses = Blueprint('courses', __name__)
 
 
-@courses.route('/courses', methods=['GET'])
+@courses.route('/all', methods=['GET'])
 def get_courses():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT courseID, name, description, professorID FROM Course')
@@ -14,7 +14,7 @@ def get_courses():
     return the_response
 
 
-@courses.route('/courses', methods=['POST'])
+@courses.route('/add', methods=['POST'])
 def create_course():
     current_app.logger.info('POST /courses route')
     data = request.json
@@ -22,10 +22,10 @@ def create_course():
     cursor = db.get_db().cursor()
     cursor.execute(query, (data['name'], data['description'], data['professorID']))
     db.get_db().commit()
-    return 'Course created!', 201
+    return make_response('Course created!', 201)
 
 
-@courses.route('/courses', methods=['PUT'])
+@courses.route('/update', methods=['PUT'])
 def change_course_description():
     current_app.logger.info('PUT /courses route')
     data = request.json
@@ -33,10 +33,10 @@ def change_course_description():
     cursor = db.get_db().cursor()
     cursor.execute(query, (data['description'], data['courseID'], data['professorID']))
     db.get_db().commit()
-    return 'Course Description Updated!', 201
+    return make_response('Course Description Updated!', 201)
 
 
-@courses.route('/courses/<courseID>', methods=['DELETE'])
+@courses.route('/delete/<int:courseID>', methods=['DELETE'])
 def delete_course_from_professor(courseID):
     try:
         data = request.json
@@ -52,7 +52,7 @@ def delete_course_from_professor(courseID):
 
 
 
-@courses.route('/courses/<professorID>', methods=['GET'])
+@courses.route('/<int:professorID>', methods=['GET'])
 def get_professor_courses(professorID):
     try:
         cursor = db.get_db().cursor()

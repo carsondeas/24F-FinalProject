@@ -74,7 +74,7 @@ else:
 st.subheader("Courses and Associated Skills")
 if st.button("View Courses"):
     try:
-        response = requests.get(f"{API_BASE}/courses")
+        response = requests.get(f"{API_BASE}")
         response.raise_for_status()
         courses = response.json()
         courses_df = pd.DataFrame(courses)

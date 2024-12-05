@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Set the API base URL
-API_BASE = "http://web-api:4000"
+API_BASE = "http://web-api:4000/courses"
 
 # Page configuration
 st.set_page_config(
@@ -17,12 +17,11 @@ if st.button("<- Back"):
     st.switch_page('pages/10_Professor_Home.py')
 
 st.title("Course Management")
-professor_id = 1  # Example logged-in professor
 
 # Fetch all courses assigned to the professor
-def fetch_professor_courses(professor_id):
+def fetch_professor_courses(id):
     try:
-        response = requests.get(f"{API_BASE}/courses/{professor_id}")
+        response = requests.get(f"{API_BASE}/{id}")
         response.raise_for_status()
         return response.json()  # Parse JSON response
     except requests.exceptions.RequestException as e:
@@ -30,33 +29,36 @@ def fetch_professor_courses(professor_id):
         return []
 
 # Add a new course for the professor
-def add_course_to_professor(name, desc, professor_id):
+def add_course_to_professor(name, desc, id):
     try:
-        data = {"name": name, "description": desc, "professorID": professor_id}
-        response = requests.post(f"{API_BASE}/courses", json=data)
+        data = {"name": name, "description": desc, "professorID": id}
+        response = requests.post(f"{API_BASE}/add", json=data)
         response.raise_for_status()
         st.success(f"Course '{name}' added successfully!")
     except requests.exceptions.RequestException as e:
         st.error(f"Error adding course: {e}")
 
 # Update a course description
-def update_professor_course(professor_id, course_id, desc):
+def update_professor_course(id, course_id, desc):
     try:
-        data = {"courseID": course_id, "professorID": professor_id, "description": desc}
-        response = requests.put(f"{API_BASE}/courses", json=data)
+        data = {"courseID": course_id, "professorID": id, "description": desc}
+        response = requests.put(f"{API_BASE}/update", json=data)
         response.raise_for_status()
         st.success(f"Course with ID {course_id} updated successfully!")
     except requests.exceptions.RequestException as e:
         st.error(f"Error updating course: {e}")
 
 # Remove a course
-def remove_course_from_professor(professor_id, course_id):
+def remove_course_from_professor(id, course_id):
     try:
-        response = requests.delete(f"{API_BASE}/courses/{course_id}", json={"professorID": professor_id})
+        response = requests.delete(f"{API_BASE}/delete/{course_id}", json={"professorID": id})
         response.raise_for_status()
         st.success(f"Course with ID {course_id} removed successfully!")
     except requests.exceptions.RequestException as e:
         st.error(f"Error removing course: {e}")
+
+
+professor_id = 1  # Example logged-in professor
 
 # Fetch professor's courses
 professor_courses = fetch_professor_courses(professor_id)

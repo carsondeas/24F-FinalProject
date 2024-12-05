@@ -64,7 +64,7 @@ if st.button('Act as Sarah, a Professor at Northeastern University',
     st.session_state['role'] = 'professor'
     st.session_state['first_name'] = 'Sarah'
     logger.info("Logging in as Northeastern Professor Persona")
-    st.switch_page('pages/10_professor_home.py')
+    st.switch_page('pages/10_Professor_Home.py')
 
 if st.button('Act as Tom, an employer at a Tech Company', 
             type = 'primary', 
