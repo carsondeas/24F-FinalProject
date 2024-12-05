@@ -10,7 +10,7 @@ st.title("Course Skill Alignment")
 # Fetch Courses
 def fetch_courses():
     try:
-        response = requests.get(f"{API_BASE}/courses")
+        response = requests.get(f"{API_BASE}/courses/courses")
         response.raise_for_status()
         return response.json()
     except Exception as e:
@@ -20,7 +20,7 @@ def fetch_courses():
 # Fetch Co-op Skills
 def fetch_co_op_skills():
     try:
-        response = requests.get(f"{API_BASE}/co_ops")
+        response = requests.get(f"{API_BASE}/coops/co_ops")
         response.raise_for_status()
         return response.json()
     except Exception as e:
@@ -37,7 +37,7 @@ for course in courses:
     st.write(f"**Course:** {course['name']}")
     course_skills = course['description'].split(",")  # Assuming skills are listed in description
     matching_co_ops = [
-        co_op for co_op in co_ops if any(skill in co_op['skills'] for skill in course_skills)
+        co_op for co_op in co_ops if any(skill in (co_op['skills'] or '') for skill in course_skills)
     ]
     if matching_co_ops:
         st.write("**Relevant Co-op Roles:**")

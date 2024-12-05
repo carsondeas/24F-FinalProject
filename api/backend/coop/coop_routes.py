@@ -20,7 +20,8 @@ def get_all_co_ops():
     cursor = db.get_db().cursor()
     cursor.execute(query)
     data = cursor.fetchall()
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify([dict(row) for row in data]), 200)
+
 
 @coops.route('/name', methods=['GET'])
 def get_all_co_ops_name():

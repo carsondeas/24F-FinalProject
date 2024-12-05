@@ -3,25 +3,30 @@ from backend.db_connection import db
 
 departments = Blueprint('departments', __name__)
 
-@departments.route('/departments', methods=['GET'])
+@departments.route('/details', methods=['GET'])
 def get_all_departments():
-    query = 'SELECT departmentID, name FROM Department'
+    query = '''
+        SELECT DISTINCT departmentID, name
+        FROM Department
+        ORDER BY departmentID;
+    '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
-@departments.route('/departments/<int:department_id>', methods=['GET'])
+@departments.route('/<int:department_id>', methods=['GET'])
 def get_department_details(department_id):
     query = '''
-        SELECT D.id, D.name, 
-               GROUP_CONCAT(DISTINCT P.name) AS professors, 
-               GROUP_CONCAT(DISTINCT C.name) AS courses
-        FROM Departments D
-        LEFT JOIN Professors P ON D.id = P.department_id
-        LEFT JOIN Courses C ON D.id = C.department_id
-        WHERE D.id = %s
-        GROUP BY D.id, D.name
+        SELECT 
+            D.departmentID AS department_id, 
+            D.name AS department_name,
+            P.name AS professor_name,
+            C.name AS course_name
+        FROM Department D
+        LEFT JOIN Professor P ON D.departmentID = P.departmentID
+        LEFT JOIN Course C ON P.professorID = C.professorID
+        WHERE D.departmentID = %s
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query, (department_id,))
