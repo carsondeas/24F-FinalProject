@@ -13,6 +13,17 @@ API_BASE = "http://web-api:4000"
 # Page Title
 st.title("Top Skills for Co-op Roles")
 
+# Add navigation buttons
+col1, col2, col3 = st.columns([1, 6, 1])
+with col1:
+    if st.button("← Back"):
+        st.write("Navigating back...")
+        st.switch_page('pages/10_Professor_Home.py')
+with col3:
+    if st.button("🏠 Home"):
+        st.write("Navigating to Home...") 
+        st.switch_page('Home.py')
+
 # Fetch Co-op Skills Data
 @st.cache_data
 def fetch_top_coop_skills():
