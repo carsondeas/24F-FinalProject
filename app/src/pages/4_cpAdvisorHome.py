@@ -6,7 +6,6 @@ from modules.nav import SideBarLinks
 
 st.set_page_config(layout='wide')
 
-
 # Welcome Message
 st.title(f"Welcome Advisor Bobby")
 st.write('')

@@ -37,7 +37,7 @@ for course in courses:
     st.write(f"**Course:** {course['name']}")
     course_skills = course['description'].split(",")  # Assuming skills are listed in description
     matching_co_ops = [
-        co_op for co_op in co_ops if any(skill in co_op['skills'] for skill in course_skills)
+        co_op for co_op in co_ops if any(skill in (co_op['skills'] or '') for skill in course_skills)
     ]
     if matching_co_ops:
         st.write("**Relevant Co-op Roles:**")
