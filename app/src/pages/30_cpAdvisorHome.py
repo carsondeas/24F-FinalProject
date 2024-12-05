@@ -6,6 +6,13 @@ from modules.nav import SideBarLinks
 
 SideBarLinks()
 
+# Define a Back Button
+if st.button("Back"):
+    # Logic for the back button
+    st.write("Navigating back...")
+    # Redirect or reset the page state
+    st.switch_page('Home.py')  # Redirect to Home page
+
 # Welcome Message
 st.title(f"Welcome Advisor Bobby")
 st.write('')
