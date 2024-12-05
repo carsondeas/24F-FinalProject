@@ -36,7 +36,7 @@ INSERT INTO Department (name) VALUES
 
 -- Insert data into Professor
 INSERT INTO Professor (email, name, departmentID) VALUES 
-('jdoe@northeastern.edu', 'John Doe', 1),          -- professorID = 1
+('sdoe@northeastern.edu', 'Sarah Doe', 1),         -- professorID = 1
 ('asmith@northeastern.edu', 'Alice Smith', 2),     -- professorID = 2
 ('bwong@northeastern.edu', 'Bob Wong', 3),         -- professorID = 3
 ('ejohnson@northeastern.edu', 'Emma Johnson', 1),  -- professorID = 4
@@ -77,7 +77,7 @@ INSERT INTO Course (description, name, professorID) VALUES
 ('Database Design', 'CS3200', 1),            -- courseID = 1
 ('Advanced Algorithms', 'CS3000', 1),        -- courseID = 2
 ('Corporate Finance', 'FINA3301', 2),        -- courseID = 3
-('Introduction to Computer Science', 'CS2500', 4), -- courseID = 4
+('Intro to Computer Science', 'CS2500', 4), -- courseID = 4
 ('Computer Systems', 'CS3650', 5),           -- courseID = 5
 ('Machine Learning', 'CS4100', 6),           -- courseID = 6
 ('Data Mining', 'DS4100', 7),                -- courseID = 7

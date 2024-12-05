@@ -26,6 +26,18 @@ def SkillManangementNav():
         "pages/03_skill_management.py", label="Manage My Skills", icon="🎯"
     )
 
+#### ------------------------ Examples for Role of professor ------------------------
+def ProfessorHomeNav():
+    st.sidebar.page_link(
+        "pages/10_Professor_Home.py", label="Professor Home", icon="🏫"
+    )
+
+def CourseManangementNav():
+    st.sidebar.page_link(
+        "pages/14_manage_courses.py", label="Manage My Courses", icon="📚"
+    )
+
+
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -52,6 +64,10 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "student":
             StudentHomeNav()
             SkillManangementNav()
+        # Show Professor Home and Manage Skill Navigation Links fir students
+        if st.session_state["role"] == "professor":
+            ProfessorHomeNav()
+            CourseManangementNav()
 
 
     # Always show the About page at the bottom of the list of links
