@@ -6,27 +6,38 @@ from modules.nav import SideBarLinks
 
 st.set_page_config(layout='wide')
 
-# Sidebar Navigation Links
+# Show appropriate sidebar links for the role of the currently logged-in user
 SideBarLinks()
 
-# Welcome Message
-st.title(f"Welcome Professor, {st.session_state['first_name']}.")
-st.write('')
-st.write('')
+# Define a Back Button
+if st.button("Back"):
+    # Logic for the back button
+    st.write("Navigating back...")
+    # Redirect or reset the page state
+    st.switch_page('Home.py')  # Redirect to Home page
+
+# Header
+st.title("Welcome, Professor!")
+st.subheader("Explore trends, analyze skill gaps, and access top skill insights to better prepare your students.")
+
+# Add spacing for better layout
+st.write("")
+st.write("")
+
+# Navigation options with streamlined buttons
 st.write("### What would you like to do today?")
 
-# Navigation Buttons
-if st.button('Course Skill Alignment',
+if st.button("Explore Skill Trends",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/11_course_skill_alignment.py')
+    st.switch_page('11_skill_trend.py')
 
-if st.button('Skill Gap Analytics',
+if st.button("Compare Proficiency Levels",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/12_skill_gap_analytics.py')
+    st.switch_page('12_compare_proficiency.py')
 
-if st.button('Skill Trends Analytics',
+if st.button("View Top Skills for Co-ops",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/14_skill_trends_analytics.py')
+    st.switch_page('13_top_skills.py')
