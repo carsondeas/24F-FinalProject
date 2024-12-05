@@ -64,7 +64,7 @@ if st.button('Act as Sarah, a Professor at Northeastern University',
     st.session_state['role'] = 'professor'
     st.session_state['first_name'] = 'Sarah'
     logger.info("Logging in as Northeastern Professor Persona")
-    st.switch_page('pages/10_professor_home.py')
+    st.switch_page('pages/10_Professor_Home.py')
 
 if st.button('Persona 3', 
             type = 'primary', 
@@ -74,13 +74,13 @@ if st.button('Persona 3',
     st.session_state['first_name'] = 'SysAdmin'
     st.switch_page('pages/20_Admin_Home.py')
 
-if st.button('Persona 4', 
+if st.button('Act as Bobby, a Co-Op Advisor at Northeastern University', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'administrator'
     st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+    st.switch_page('pages/cpAdvisorHome.py')
 
 
 

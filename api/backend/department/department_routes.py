@@ -5,7 +5,7 @@ departments = Blueprint('departments', __name__)
 
 @departments.route('/departments', methods=['GET'])
 def get_all_departments():
-    query = 'SELECT id, name FROM Departments'
+    query = 'SELECT departmentID, name FROM Department'
     cursor = db.get_db().cursor()
     cursor.execute(query)
     data = cursor.fetchall()
