@@ -17,9 +17,9 @@ st.write("### What would you like to do today?")
 if st.button('Student Profiles',
              type='primary',
              use_container_width=True):
-    st.switch_page('coopAdvisor/studentProfile.py')
+    st.switch_page('pages/4_studentProfile.py')
 
 if st.button('Company Profiles',
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/12_skill_gap_analytics.py')
+    st.switch_page('pages/4_companyProfile')
