@@ -47,7 +47,7 @@ st.title("Company Search")
 # Step 1: Select a Company
 selected_company_name = st.selectbox(
     "Select a Company",
-    options=["Select a Company"] + unique_companies,  # Placeholder text at the top
+    options=["Select a Company"] + unique_companies, 
     help="Search and select a company to view available roles."
 )
 
@@ -84,32 +84,6 @@ if selected_company_name and selected_company_name != "Select a Company":
             st.write(f"**Role Title:** {selected_role['jobTitle']}")
             st.write(f"**Skills Required:** {selected_role.get('skillName', 'None')}")
             st.markdown("---")
-
-            # Step 5: Display skills as a bar chart
-            # Extract skills and proficiency levels (mocked for demonstration)
-            skills = selected_role.get('skillName', '').split(', ')
-            proficiency_levels = [3 for _ in skills]  # Mocked proficiency levels (adjust if your API provides levels)
-
-            # Create a DataFrame for the chart
-            skill_data = pd.DataFrame({
-                "Skill": skills,
-                "Proficiency Level": proficiency_levels
-            })
-
-            # Display the bar chart
-            st.subheader("Skills Proficiency Chart")
-            chart = alt.Chart(skill_data).mark_bar().encode(
-                x=alt.X("Proficiency Level:Q", title="Proficiency Level"),
-                y=alt.Y("Skill:O", title="Skill", sort="-x"),
-                color=alt.Color("Proficiency Level:Q", scale=alt.Scale(scheme="blues")),
-                tooltip=["Skill", "Proficiency Level"]
-            ).properties(
-                width=600,
-                height=400,
-            )
-            st.altair_chart(chart, use_container_width=True)
-        else:
-            st.warning("No matching role found.")
 else:
     st.info("Select a company to view roles.")
 # Example button for switching pages

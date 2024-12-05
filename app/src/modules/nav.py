@@ -48,9 +48,9 @@ def ClassificationNav():
     )
 
 
-#### ------------------------ System Admin Role ------------------------
+#### ------------------------ System Admin Role (CoOp Advisor) ------------------------
 def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
+    st.sidebar.page_link("pages/20_Admin_Home.py", label="Co-Op Advisor", icon="💼")
     st.sidebar.page_link(
         "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
     )
@@ -63,7 +63,7 @@ def SideBarLinks(show_home=False):
     """
 
     # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
+    st.sidebar.image("assets/logo.png", width=300)
 
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
@@ -88,10 +88,6 @@ def SideBarLinks(show_home=False):
             PredictionNav()
             ApiTestNav()
             ClassificationNav()
-
-        # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
