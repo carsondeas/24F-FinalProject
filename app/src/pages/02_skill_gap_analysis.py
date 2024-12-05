@@ -71,8 +71,6 @@ required_skills_df = pd.DataFrame()
 
 
 # Skill Gap Analysis Section
-st.subheader("Skill Gap Analysis")
-
 if co_ops:
     # Populate job IDs for selection
     job_ids = [co_op["jobTitle"] for co_op in co_ops]
