@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 
 # Set the API base URL
-API_BASE = "http://localhost:4000"
+API_BASE = "http://web-api:4000"
 
 # Page configuration
 st.set_page_config(
