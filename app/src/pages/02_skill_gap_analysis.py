@@ -85,7 +85,7 @@ if co_ops:
         if st.button("Show Required Skills for Selected Job"):
             required_skills_df = fetch_skills_for_job(selected_job)
 
-            # Check if the DataFrame is not empty
+           # Check if the DataFrame is not empty
             if not required_skills_df.empty:
                 # Display the results
                 st.write("### Required Skills for the Selected Job")
@@ -95,22 +95,29 @@ if co_ops:
 
         # Create DataFrame for user skills
         user_skills_df = pd.DataFrame(user_skills)
-        # Analyze skill gaps
-        user_skill_names = user_skills_df["skill_name"].tolist()  # Replace with actual column name
-            
-        required_skill_names = required_skills_df["Skill Name"].tolist()  # Verify this as well
-            
-        missing_skills = [skill for skill in required_skill_names if skill not in user_skill_names]
+
+        # Check for empty DataFrame
+        if user_skills_df.empty:
+            st.warning("No user skills found.")
+        elif required_skills_df.empty:
+            st.warning("No required skills found.")
+        else:
+            # Analyze skill gaps
+            user_skill_names = user_skills_df["skill_name"].tolist()  # Ensure column name matches
+            required_skill_names = required_skills_df["Skill Name"].tolist()  # Ensure column name matches
+            missing_skills = [skill for skill in required_skill_names if skill not in user_skill_names]
+
         # Display the user's skills
         st.write("### Your Skills")
-        st.table(user_skills_df)
+        user_skills_df = user_skills_df.reset_index(drop=True)
+        st.table(user_skills_df.style.hide(axis="index"))
         # Display the missing skills
         st.write("### Missing Skills")
         if missing_skills:
-        # Convert missing skills to strings before joining
+            # Convert missing skills to strings before joining
             st.write(", ".join(map(str, missing_skills)))
         else:
-            st.write("You have all the required skills!")   
+            st.write("You have all the required skills!")  
 
 else:
     st.write("No job titles available for analysis.")
