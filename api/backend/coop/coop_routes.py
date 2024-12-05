@@ -3,14 +3,19 @@ from backend.db_connection import db
 
 coops = Blueprint('coops', __name__)
 
-@coops.route('/co_ops', methods=['GET'])
+
+@coops.route('/getall', methods=['GET'])
 def get_all_co_ops():
     query = '''
-        SELECT C.id, C.title, C.company, C.description, GROUP_CONCAT(S.skill) as skills
-        FROM CoOps C
-        LEFT JOIN CoOpSkills CS ON C.id = CS.co_op_id
-        LEFT JOIN Skills S ON CS.skill_id = S.id
-        GROUP BY C.id, C.title, C.company, C.description
+    SELECT C.jobID,  C.jobTitle, C.companyName,  C.industry, 
+    GROUP_CONCAT(S.name SEPARATOR ', ') AS skillName
+    FROM CoOp C
+    LEFT JOIN (
+        SELECT DISTINCT jobID, skillID FROM CoOp_Skill) 
+        CS ON C.jobID = CS.jobID
+        LEFT JOIN Skill S ON CS.skillID = S.skillID
+        GROUP BY C.jobID, C.jobTitle, C.companyName, C.industry;
+
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -27,6 +32,8 @@ def get_all_co_ops_name():
     cursor.execute(query)
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
+
+
 
 
 @coops.route('/job_skills/<string:job_title>', methods=['GET'])
