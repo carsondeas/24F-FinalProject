@@ -14,7 +14,7 @@ def AboutPageNav():
     st.sidebar.page_link("pages/40_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of student ------------------------
+#### ------------------------ Role of student ------------------------
 def StudentHomeNav():
     st.sidebar.page_link(
         "pages/00_Student_Home.py", label="Student Home", icon="🎓"
@@ -37,6 +37,18 @@ def CourseManangementNav():
         "pages/14_manage_courses.py", label="Manage My Courses", icon="📚"
     )
 
+
+
+#### ------------------------ Role of co-op advisor ------------------------
+def ManageStudentsNav():
+    st.sidebar.page_link(
+        "pages/34_manage_students.py", label="Manage Students", icon="👨‍🎓"
+    )
+
+def ManageProfessorsNav():
+    st.sidebar.page_link(
+        "pages/35_manage_professors.py", label="Manage Professors", icon="🧑‍🏫"
+    )
 
 
 # --------------------------------Links Function -----------------------------------------------
@@ -69,6 +81,10 @@ def SideBarLinks(show_home=False):
             ProfessorHomeNav()
             CourseManangementNav()
 
+    # Show navigation links for co-op advisor
+        elif st.session_state["role"] == "co-op_advisor":
+            ManageStudentsNav()
+            ManageProfessorsNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
