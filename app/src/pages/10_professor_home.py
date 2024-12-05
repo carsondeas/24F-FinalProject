@@ -26,11 +26,6 @@ if st.button('Skill Gap Analytics',
              use_container_width=True):
     st.switch_page('pages/12_skill_gap_analytics.py')
 
-if st.button('Course Improvement',
-             type='primary',
-             use_container_width=True):
-    st.switch_page('pages/13_course_improvement.py')
-
 if st.button('Skill Trends Analytics',
              type='primary',
              use_container_width=True):
