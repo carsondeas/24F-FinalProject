@@ -12,7 +12,6 @@ API_BASE = "http://web-api:4000"
 
 # Page Title
 st.title("Top Skills for Co-op Roles")
-st.subheader("Explore the most in-demand skills across industries and co-op roles.")
 
 # Fetch Co-op Skills Data
 @st.cache_data
@@ -31,12 +30,8 @@ coop_skills_df = fetch_top_coop_skills()
 # Validate Data
 if coop_skills_df.empty:
     st.warning("No data available for top skills.")
-else:
-    # Ensure columns are correctly typed
-    coop_skills_df["industry"] = coop_skills_df["industry"].astype(str)
-    coop_skills_df["skillName"] = coop_skills_df["skillName"].astype(str)
-    coop_skills_df["demandCount"] = coop_skills_df["demandCount"].astype(int)
 
+else:
     # Top 10 Skills by Demand
     top_skills_df = coop_skills_df.groupby("skillName")["demandCount"].sum().reset_index()
     top_skills_df = top_skills_df.sort_values(by="demandCount", ascending=False).head(10)
@@ -61,8 +56,6 @@ else:
     pivot_df = industry_skills_df.pivot(index="skillName", columns="industry", values="demandCount").fillna(0)
 
     st.dataframe(pivot_df)
-
-    st.write("Pivot DataFrame Structure:", pivot_df.head())
 
     # Visualization: Stacked Bar Chart
     st.markdown("### Stacked Bar Chart: Top Skills by Industry")
