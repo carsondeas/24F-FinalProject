@@ -12,6 +12,17 @@ st.set_page_config(page_title="Skill Trends", page_icon="📈", layout="wide")
 st.title("Skill Trends")
 st.markdown("Explore trends in skill demand across industries and co-op roles.")
 
+# Add navigation buttons
+col1, col2, col3 = st.columns([1, 6, 1])
+with col1:
+    if st.button("← Back"):
+        st.write("Navigating back...")
+        st.switch_page('pages/10_Professor_Home.py')
+with col3:
+    if st.button("🏠 Home"):
+        st.write("Navigating to Home...") 
+        st.switch_page('Home.py')
+
 # Fetch Co-op Data
 @st.cache_data
 def fetch_coop_data():
