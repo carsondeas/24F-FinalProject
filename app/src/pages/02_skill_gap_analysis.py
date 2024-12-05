@@ -17,10 +17,11 @@ col1, col2, col3 = st.columns([1, 6, 1])
 with col1:
     if st.button("← Back"):
         st.write("Navigating back...")
-        st.experimental_rerun()
+        st.switch_page('pages/00_Student_Home.py')
 with col3:
     if st.button("🏠 Home"):
-        st.write("Navigating to Home...")
+        st.write("Navigating to Home...") 
+        st.switch_page('Home.py')
 
 st.title("Skill Gap Analysis")
 
@@ -41,7 +42,6 @@ def fetch_skills_for_job(job_title):
         job_skills = response.json()
         return pd.DataFrame(job_skills, columns=["Skill Name", "Proficiency Level"])
     except Exception as e:
-        st.error(f"Error fetching skills for job: {e}")
         return pd.DataFrame()
 
 def fetch_all_user_skills(nuid):
@@ -91,7 +91,10 @@ if co_ops:
 
             # Skill gap analysis
             user_skill_names = user_skills_df["Skill Name"].tolist()
-            required_skill_names = required_skills_df["Skill Name"].tolist()
+            if not required_skills_df.empty:
+                required_skill_names = required_skills_df["Skill Name"].tolist()
+            else:
+                required_skill_names = []
             missing_skills = [skill for skill in required_skill_names if skill not in user_skill_names]
             
             # Display missing skills

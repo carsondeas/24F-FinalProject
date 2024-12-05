@@ -116,9 +116,3 @@ def fetch_all_user_skills(nuid):
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching user skills: {e}")
         return []
-
-# Example button for switching pages
-st.markdown('<div class="skill-management-button">', unsafe_allow_html=True)
-if st.button("🔧 Go to Skill Management"):
-    st.switch_page('pages/1_skill_management.py')  # Replace with navigation logic
-st.markdown('</div>', unsafe_allow_html=True)

@@ -16,8 +16,7 @@ st.set_page_config(
 if st.button("Back"):
     # Logic for the back button
     st.write("Navigating back...")
-    # Redirect or reset the page state (Example: Use navigation logic here)
-    st.switch_page('pages/01_skill_tracking.py')  # Reload the page
+    st.switch_page('pages/00_Student_Home.py')  # Reload the page
 
 st.title("Skill Management")
 user_id = 1  # Example logged-in user
