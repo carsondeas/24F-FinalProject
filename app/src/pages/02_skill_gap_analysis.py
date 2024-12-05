@@ -10,14 +10,18 @@ st.set_page_config(
     page_title="Skill Gap Analysis",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded",
 )
-# Define a Back Button
-if st.button("Back"):
-    # Logic for the back button
-    st.write("Navigating back...")
-    # Redirect or reset the page state (Example: Use navigation logic here)
-    st.switch_page('pages/00_Student_Home.py')  # Reload the page
+
+# Back Button
+col1, col2, col3 = st.columns([1, 6, 1])
+with col1:
+    if st.button("← Back"):
+        st.write("Navigating back...")
+        st.experimental_rerun()
+with col3:
+    if st.button("🏠 Home"):
+        st.write("Navigating to Home...")
+
 st.title("Skill Gap Analysis")
 
 # Fetch Co-ops (Job Titles and Skills)
@@ -25,102 +29,76 @@ def fetch_co_ops():
     try:
         response = requests.get(f"{API_BASE}/coops/name")
         response.raise_for_status()
-        coops = response.json()
-        if not coops:
-            st.warning("No co-op opportunities found.")
-            return []
-        return coops
+        return response.json()
     except Exception as e:
         st.error(f"Error fetching co-ops: {e}")
         return []
 
 def fetch_skills_for_job(job_title):
     try:
-        # Use the updated path parameter route
         response = requests.get(f"{API_BASE}/coops/job_skills/{job_title}")
         response.raise_for_status()
         job_skills = response.json()
-        
-        if not job_skills:
-            st.warning(f"No skills found for Job ID {job_title}.")
-            return pd.DataFrame()
-
-         # Convert skills data to a DataFrame with explicit column headers
-        df = pd.DataFrame(job_skills, columns=["Job Title", "Company Name", "Industry", "Skill Name", "Proficiency Level"])
-        return df
-    
+        return pd.DataFrame(job_skills, columns=["Skill Name", "Proficiency Level"])
     except Exception as e:
         st.error(f"Error fetching skills for job: {e}")
         return pd.DataFrame()
 
-
-# Fetch all available skills
-def fetch_all_user_skills(NUID):
+def fetch_all_user_skills(nuid):
     try:
-        response = requests.get(f"{API_BASE}/students/{NUID}/details")
+        response = requests.get(f"{API_BASE}/students/{nuid}/details")
         response.raise_for_status()
-        return response.json()  # Parse JSON response
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching students: {e}")
+        return response.json()
+    except Exception as e:
+        st.error(f"Error fetching user skills: {e}")
         return []
-
-
 
 # User ID (example user)
 user_id = 1
 
 # Fetch data
-user_skills = fetch_all_user_skills(user_id)
 co_ops = fetch_co_ops()
-required_skills_df = pd.DataFrame()
+user_skills = fetch_all_user_skills(user_id)
 
-
-# Skill Gap Analysis Section
+# Page layout
 if co_ops:
-    # Populate job IDs for selection
-    job_ids = [co_op["jobTitle"] for co_op in co_ops]
-    selected_job = st.selectbox("Select a Job Title (by Job ID)", job_ids)
-
-    if selected_job:
-        # Button to fetch and display job skills
-        if st.button("Show Required Skills for Selected Job"):
-            required_skills_df = fetch_skills_for_job(selected_job)
-
-           # Check if the DataFrame is not empty
-            if not required_skills_df.empty:
-                # Display the results
-                st.write("### Required Skills for the Selected Job")
-                st.table(required_skills_df)
-            else:
-                st.write("No skills found for the selected job.")
-
-        # Create DataFrame for user skills
-        user_skills_df = pd.DataFrame(user_skills)
-        # Initialize missing_skills at the start
-        missing_skills = []
+    company_names = list({co_op["companyName"] for co_op in co_ops})
+    selected_company = st.selectbox("Select a Company", options=[""] + company_names)
+    
+    if selected_company:
+        roles = [co_op["jobTitle"] for co_op in co_ops if co_op["companyName"] == selected_company]
+        selected_role = st.selectbox("Select a Role", options=[""] + roles)
         
-        # Check for empty DataFrame
-        if user_skills_df.empty:
-            st.warning("No user skills found.")
-        elif required_skills_df.empty:
-            st.warning("No required skills found.")
-        else:
-            # Analyze skill gaps
-            user_skill_names = user_skills_df["skill_name"].tolist()  # Ensure column name matches
-            required_skill_names = required_skills_df["Skill Name"].tolist()  # Ensure column name matches
+        if selected_role:
+            # Fetch skills for the selected role
+            required_skills_df = fetch_skills_for_job(selected_role)
+
+            # Display required skills and user skills in a side-by-side comparison
+            st.subheader(f"Skill Comparison: {selected_company} - {selected_role}")
+            col1, col2 = st.columns(2)
+            
+            # Display user's skills
+            with col1:
+                st.markdown("**My Skills**")
+                user_skills_df = pd.DataFrame(user_skills, columns=["skill_name", "proficiencyLevel"])
+                user_skills_df.rename(columns={"skill_name": "Skill Name", "proficiencyLevel": "Proficiency Level"}, inplace=True)
+                st.table(user_skills_df)
+
+            # Display company-required skills
+            with col2:
+                st.markdown(f"**{selected_company}'s Required Skills**")
+                st.table(required_skills_df)
+
+            # Skill gap analysis
+            user_skill_names = user_skills_df["Skill Name"].tolist()
+            required_skill_names = required_skills_df["Skill Name"].tolist()
             missing_skills = [skill for skill in required_skill_names if skill not in user_skill_names]
-
-        # Display the user's skills
-        st.write("### Your Skills")
-        user_skills_df = user_skills_df.reset_index(drop=True)
-        st.table(user_skills_df.style.hide(axis="index"))
-        # Display the missing skills
-        st.write("### Missing Skills")
-        if missing_skills:
-            # Convert missing skills to strings before joining
-            st.write(", ".join(map(str, missing_skills)))
-        else:
-            st.write("You have all the required skills!")  
-
+            
+            # Display missing skills
+            st.subheader("Missing Skills")
+            if missing_skills:
+                st.write(", ".join(missing_skills))
+            else:
+                st.success("You meet all the required skills!")
 else:
-    st.write("No job titles available for analysis.")
+    st.warning("No job titles available.")
