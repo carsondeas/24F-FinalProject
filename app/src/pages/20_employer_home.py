@@ -30,14 +30,14 @@ st.write("### What would you like to do today?")
 if st.button("Manage Co-op Postions and Skills",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/15_employer_pg1.py')
+    st.switch_page('pages/21_employer_pg1.py')
 
 if st.button("Search and Match Students",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/16_employer_pg2.py')
+    st.switch_page('pages/22_employer_pg2.py')
 
 if st.button("View Industry and Skill Trends",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/17_employer_pg3.py')
+    st.switch_page('pages/23_employer_pg3.py')

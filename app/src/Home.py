@@ -72,7 +72,7 @@ if st.button('Act as Tom, an employer at a Tech Company',
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'administrator'
     st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/14_employer_home.py')
+    st.switch_page('pages/20_employer_home.py')
 
 if st.button('Act as Bobby, a Co-Op Advisor at Northeastern University', 
             type = 'primary', 
