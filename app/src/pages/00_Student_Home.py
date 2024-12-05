@@ -29,7 +29,7 @@ if st.button('Progress Tracking',
              use_container_width=True):
   st.switch_page('pages/03_progress_tracking.py')
 
-if st.button('Co-op Role Matching',
+if st.button('Skill Management',
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/04_coop_role_matching.py')
+  st.switch_page('pages/04_skill_management.py')
