@@ -13,6 +13,12 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+# Define a Back Button
+if st.button("Back"):
+    # Logic for the back button
+    st.write("Navigating back...")
+    # Redirect or reset the page state (Example: Use navigation logic here)
+    st.switch_page('pages/00_Student_Home.py')  # Reload the page
 
 st.title("Alex's Skills")
 

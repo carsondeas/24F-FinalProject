@@ -9,6 +9,13 @@ st.set_page_config(layout = 'wide')
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
+# Define a Back Button
+if st.button("Back"):
+    # Logic for the back button
+    st.write("Navigating back...")
+    # Redirect or reset the page state (Example: Use navigation logic here)
+    st.switch_page('Home.py')  # Reload the page
+
 st.title(f"Welcome Student, {st.session_state['first_name']}.")
 st.write('')
 st.write('')
