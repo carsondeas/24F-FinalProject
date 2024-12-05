@@ -3,7 +3,7 @@ from backend.db_connection import db
 
 coops = Blueprint('coops', __name__)
 
-@coops.route('/coops', methods=['GET'])
+@coops.route('/co_ops', methods=['GET'])
 def get_all_co_ops():
     query = '''
         SELECT C.id, C.title, C.company, C.description, GROUP_CONCAT(S.skill) as skills
@@ -28,7 +28,34 @@ def get_all_co_ops_name():
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
-@coops.route('/coops/<int:coop_id>', methods=['GET'])
+
+@coops.route('/job_skills/<string:job_title>', methods=['GET'])
+def get_job_skills_by_title(job_title):
+    query = '''
+        SELECT 
+            CoOp.jobTitle AS "Job Title",
+            CoOp.companyName AS "Company Name",
+            CoOp.industry AS "Industry",
+            Skill.name AS "Skill Name",
+            CoOp_Skill.proficiencyLevel AS "Proficiency Level"
+        FROM CoOp
+        JOIN CoOp_Skill ON CoOp.jobID = CoOp_Skill.jobID
+        JOIN Skill ON CoOp_Skill.skillID = Skill.skillID
+        WHERE CoOp.jobTitle = %s;
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (job_title,))
+    data = cursor.fetchall()
+    
+    if not data:
+        return make_response(jsonify({"message": "No skills found for the specified job ID"}), 404)
+    
+    return make_response(jsonify(data), 200)
+
+
+
+
+@coops.route('/co_ops/<int:coop_id>', methods=['GET'])
 def get_coop_by_id(coop_id):
     query = '''
         SELECT C.id, C.title, C.company, C.description, GROUP_CONCAT(S.skill) as skills
