@@ -86,8 +86,3 @@ if selected_company_name and selected_company_name != "Select a Company":
             st.markdown("---")
 else:
     st.info("Select a company to view roles.")
-# Example button for switching pages
-st.markdown('<div class="skill-management-button">', unsafe_allow_html=True)
-if st.button("🔧 Go to Industry Skill Trends"):
-    st.switch_page('pages/4_skillTrends.py')  # Replace with navigation logic
-st.markdown('</div>', unsafe_allow_html=True)

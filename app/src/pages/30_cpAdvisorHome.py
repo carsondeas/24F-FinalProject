@@ -16,9 +16,14 @@ st.write("### What would you like to do today?")
 if st.button('Student Profiles',
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/4_studentProfile.py')
+    st.switch_page('pages/31_studentProfile.py')
 
 if st.button('Company Profiles',
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/4_companyProfile.py')
+    st.switch_page('pages/32_companyProfile.py')
+
+if st.button('View Skill Trends',
+             type='primary',
+             use_container_width=True):
+    st.switch_page('pages/33_skillTrends.py')

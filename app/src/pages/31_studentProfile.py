@@ -17,7 +17,7 @@ col1, col2, col3 = st.columns([1, 6, 1])
 with col1:
     if st.button("← Back"):
         st.write("Navigating back...")
-        st.switch_page('pages/4_cpAdvisorHome.py')
+        st.switch_page('pages/30_cpAdvisorHome.py')
 with col3:
     if st.button("🏠 Home"):
         st.write("Navigating to Home...")  # Replace with navigation logic

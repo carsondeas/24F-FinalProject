@@ -35,8 +35,6 @@ def get_all_co_ops_name():
     return make_response(jsonify(data), 200)
 
 
-
-
 @coops.route('/job_skills/<string:job_title>', methods=['GET'])
 def get_job_skills_by_title(job_title):
     query = '''
@@ -59,8 +57,6 @@ def get_job_skills_by_title(job_title):
         return make_response(jsonify({"message": "No skills found for the specified job ID"}), 404)
     
     return make_response(jsonify(data), 200)
-
-
 
 
 @coops.route('/co_ops/<int:coop_id>', methods=['GET'])
