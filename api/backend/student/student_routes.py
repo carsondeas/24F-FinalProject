@@ -144,16 +144,63 @@ def update_skill_for_student():
         current_app.logger.error(f"Error adding or updating skill: {e}")
         return {"error": f"An error occurred: {str(e)}"}, 500
 
+# Update student attributes from the database
+@students.route('/<int:NUID>/update', methods=['PUT'])
+def update_student(NUID):
+    """
+    Update a student's details, such as name, email, GPA, or major.
+    """
+    data = request.json
 
+    # Check if at least one field is provided for the update
+    allowed_fields = ['name', 'email', 'GPA', 'major']
+    updates = {field: data[field] for field in allowed_fields if field in data}
+
+    if not updates:
+        return {"error": "No valid fields provided for update. Allowed fields: name, email, GPA, major."}, 400
+
+    # Build the SQL query dynamically based on the fields to be updated
+    update_clauses = ", ".join([f"{field} = %s" for field in updates.keys()])
+    query = f"UPDATE Student SET {update_clauses} WHERE NUID = %s"
+
+    # Add values for the placeholders in the query
+    values = list(updates.values()) + [NUID]
+
+    # Execute the update query
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query, values)
+        db.get_db().commit()
+        return {"message": "Student details updated successfully."}, 200
+    except Exception as e:
+        db.get_db().rollback()
+        current_app.logger.error(f"Error updating student {NUID}: {e}")
+        return {"error": f"An error occurred while updating the student: {str(e)}"}, 500
 
 # Remove a student from the database
 @students.route('/<NUID>', methods=['DELETE'])
 def delete_student(NUID):
-    query = 'DELETE FROM Student WHERE NUID = %s'
-    cursor = db.get_db().cursor()
-    cursor.execute(query, (NUID,))
-    db.get_db().commit()
-    return make_response("Student removed successfully", 200)
+    try:
+        # Check if the student exists
+        check_query = 'SELECT * FROM Student WHERE NUID = %s'
+        cursor = db.get_db().cursor()
+        cursor.execute(check_query, (NUID,))
+        student = cursor.fetchone()
+        
+        if not student:
+            return make_response({"error": f"Student with NUID {NUID} does not exist."}, 404)
+        
+        # Delete the student
+        delete_query = 'DELETE FROM Student WHERE NUID = %s'
+        cursor.execute(delete_query, (NUID,))
+        db.get_db().commit()
+        
+        return make_response({"message": f"Student with NUID {NUID} removed successfully."}, 200)
+    
+    except Exception as e:
+        db.get_db().rollback()  # Rollback any changes in case of error
+        current_app.logger.error(f"Error deleting student with NUID {NUID}: {e}")
+        return make_response({"error": "An error occurred while deleting the student."}, 500)
 
 @students.route('/<int:NUID>/skillsdelete', methods=['DELETE'])
 def delete_selected_user_skills(NUID):
