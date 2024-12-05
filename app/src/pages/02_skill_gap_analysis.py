@@ -95,7 +95,9 @@ if co_ops:
 
         # Create DataFrame for user skills
         user_skills_df = pd.DataFrame(user_skills)
-
+        # Initialize missing_skills at the start
+        missing_skills = []
+        
         # Check for empty DataFrame
         if user_skills_df.empty:
             st.warning("No user skills found.")
