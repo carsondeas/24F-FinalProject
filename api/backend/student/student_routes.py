@@ -150,32 +150,41 @@ def update_student(NUID):
     """
     Update a student's details, such as name, email, GPA, or major.
     """
+    # Collect data from the request
     data = request.json
+    current_app.logger.info(f"Received data for updating student {NUID}: {data}")
 
-    # Check if at least one field is provided for the update
+    # Validate input fields
     allowed_fields = ['name', 'email', 'GPA', 'major']
-    updates = {field: data[field] for field in allowed_fields if field in data}
+    updates = {key: data[key] for key in allowed_fields if key in data}
 
     if not updates:
-        return {"error": "No valid fields provided for update. Allowed fields: name, email, GPA, major."}, 400
+        response = {"error": "No valid fields provided for update. Allowed fields: name, email, GPA, major."}
+        return make_response(jsonify(response), 400)
 
-    # Build the SQL query dynamically based on the fields to be updated
-    update_clauses = ", ".join([f"{field} = %s" for field in updates.keys()])
-    query = f"UPDATE Student SET {update_clauses} WHERE NUID = %s"
+    # Construct the SQL query dynamically
+    set_clause = ", ".join([f"{field} = %s" for field in updates.keys()])
+    query = f"UPDATE Student SET {set_clause} WHERE NUID = %s"
+    current_app.logger.info(f"Constructed query: {query}")
 
-    # Add values for the placeholders in the query
+    # Prepare values for the query
     values = list(updates.values()) + [NUID]
 
-    # Execute the update query
     try:
+        # Execute the query
         cursor = db.get_db().cursor()
         cursor.execute(query, values)
         db.get_db().commit()
-        return {"message": "Student details updated successfully."}, 200
+
+        if cursor.rowcount == 0:
+            return make_response(jsonify({"error": "Student not found or no changes made."}), 404)
+
+        response = {"message": f"Student {NUID} updated successfully."}
+        return make_response(jsonify(response), 200)
     except Exception as e:
         db.get_db().rollback()
         current_app.logger.error(f"Error updating student {NUID}: {e}")
-        return {"error": f"An error occurred while updating the student: {str(e)}"}, 500
+        return make_response(jsonify({"error": f"An error occurred while updating the student: {str(e)}"}), 500)
 
 # Remove a student from the database
 @students.route('/<NUID>', methods=['DELETE'])
