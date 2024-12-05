@@ -79,3 +79,7 @@ def fetch_all_user_skills(nuid):
         st.error(f"Error fetching students: {e}")
         return []
 
+if st.button('Skill Management',
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/04_skill_management.py')
