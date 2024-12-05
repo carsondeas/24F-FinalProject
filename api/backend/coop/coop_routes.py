@@ -39,6 +39,34 @@ def get_coops_avg_proficiency():
     data = cursor.fetchall()
     return make_response(jsonify([dict(row) for row in data]), 200)
 
+@coops.route('/top_skills', methods=['GET'])
+def get_top_skills():
+    """
+    Fetch the top skills required for co-op roles, grouped by industry and demand count.
+    """
+    query = '''
+        SELECT 
+            S.name AS skillName,
+            COUNT(CS.jobID) AS demandCount,
+            C.industry
+        FROM Skill S
+        JOIN CoOp_Skill CS ON S.skillID = CS.skillID
+        JOIN CoOp C ON CS.jobID = C.jobID
+        GROUP BY S.name, C.industry
+        ORDER BY demandCount DESC;
+    '''
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        # Format data into a list of dictionaries
+        top_skills = [dict(row) for row in data]
+        return make_response(jsonify(top_skills), 200)
+    except Exception as e:
+        current_app.logger.error(f"Error fetching top skills: {e}")
+        return make_response({"error": "Failed to fetch top skills."}, 500)
+
 @coops.route('/name', methods=['GET'])
 def get_all_co_ops_name():
     query = '''
