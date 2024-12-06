@@ -121,27 +121,40 @@ def get_coop_by_id(coop_id):
     else:
         return make_response("Co-op opportunity not found", 404)
 
-# Add a new co-op opportunity to the database
-@coops.route('/coops', methods=['POST'])
-def add_co_op():
-    data = request.json
-    # Insert the co-op opportunity details
-    query = '''
-        INSERT INTO CoOps (title, company, description)
-        VALUES (%s, %s, %s)
-    '''
-    cursor = db.get_db().cursor()
-    cursor.execute(query, (data['title'], data['company'], data['description']))
-    co_op_id = cursor.lastrowid
+from flask import Blueprint, request, jsonify, make_response
+from backend.db_connection import db
 
-    # Link the co-op with skills if provided
-    if 'skills' in data:
-        for skill_id in data['skills']:
-            query = 'INSERT INTO CoOpSkills (co_op_id, skill_id) VALUES (%s, %s)'
-            cursor.execute(query, (co_op_id, skill_id))
-    
-    db.get_db().commit()
-    return make_response("Co-op opportunity added successfully", 201)
+coops = Blueprint('coops', __name__)
+
+@coops.route('/addrole', methods=['POST'])
+def add_co_op():
+    try:
+        # Extract data from the incoming request
+        data = request.json
+        job_title = data.get('jobTitle')
+        company_name = data.get('companyName')
+        industry = data.get('industry')
+
+        # Validate required fields
+        if not job_title or not company_name or not industry:
+            return make_response(jsonify({"error": "Missing required fields"}), 400)
+
+        # Insert the new co-op into the CoOp table
+        query = '''
+            INSERT INTO CoOp (jobTitle, companyName, industry)
+            VALUES (%s, %s, %s)
+        '''
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (job_title, company_name, industry))
+        db.get_db().commit()
+
+        # Return success response
+        return make_response(jsonify({"message": "Co-op opportunity added successfully"}), 201)
+
+    except Exception as e:
+        db.get_db().rollback()  # Rollback transaction in case of error
+        return make_response(jsonify({"error": str(e)}), 500)
+
 
 
 @coops.route('/coops/<int:coop_id>', methods=['PUT'])
