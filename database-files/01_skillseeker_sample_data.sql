@@ -36,7 +36,7 @@ INSERT INTO Department (name) VALUES
 
 -- Insert data into Professor
 INSERT INTO Professor (email, name, departmentID) VALUES 
-('jdoe@northeastern.edu', 'John Doe', 1),          -- professorID = 1
+('sdoe@northeastern.edu', 'Sarah Doe', 1),         -- professorID = 1
 ('asmith@northeastern.edu', 'Alice Smith', 2),     -- professorID = 2
 ('bwong@northeastern.edu', 'Bob Wong', 3),         -- professorID = 3
 ('ejohnson@northeastern.edu', 'Emma Johnson', 1),  -- professorID = 4
@@ -77,7 +77,7 @@ INSERT INTO Course (description, name, professorID) VALUES
 ('Database Design', 'CS3200', 1),            -- courseID = 1
 ('Advanced Algorithms', 'CS3000', 1),        -- courseID = 2
 ('Corporate Finance', 'FINA3301', 2),        -- courseID = 3
-('Introduction to Computer Science', 'CS2500', 4), -- courseID = 4
+('Intro to Computer Science', 'CS2500', 4), -- courseID = 4
 ('Computer Systems', 'CS3650', 5),           -- courseID = 5
 ('Machine Learning', 'CS4100', 6),           -- courseID = 6
 ('Data Mining', 'DS4100', 7),                -- courseID = 7
@@ -214,7 +214,7 @@ INSERT INTO Course_Skill (skillID, courseID, proficiencyLevel) VALUES
 
 -- Insert data into Student
 INSERT INTO Student (email, name, GPA, major) VALUES 
-('student1@northeastern.edu', 'Alice Green', 3.8, 'Computer Science'),   -- NUID = 1
+('student1@northeastern.edu', 'Alex Park', 3.8, 'Computer Science'),   -- NUID = 1
 ('student2@northeastern.edu', 'Bob Brown', 3.5, 'Finance'),              -- NUID = 2
 ('student3@northeastern.edu', 'Charlie White', 3.7, 'Engineering'),      -- NUID = 3
 ('student4@northeastern.edu', 'David Smith', 3.6, 'Computer Science'),   -- NUID = 4
@@ -252,11 +252,11 @@ INSERT INTO Student (email, name, GPA, major) VALUES
 
 -- Insert data into Student_Course
 INSERT INTO Student_Course (NUID, courseID) VALUES 
-(1, 1),   -- Alice Green enrolls in CS3200
-(1, 4),   -- Alice Green enrolls in CS2500
-(1, 5),   -- Alice Green enrolls in CS3650
-(1, 6),   -- Alice Green enrolls in CS4100
-(1, 2),   -- Alice Green enrolls in CS3000
+(1, 1),   -- Alex Green enrolls in CS3200
+(1, 4),   -- Alex Green enrolls in CS2500
+(1, 5),   -- Alex Green enrolls in CS3650
+(1, 6),   -- Alex Green enrolls in CS4100
+(1, 2),   -- Alex Green enrolls in CS3000
 (2, 3),   -- Bob Brown enrolls in FINA3301
 (2, 19),  -- Bob Brown enrolls in BUSN1101
 (2, 40),  -- Bob Brown enrolls in BUSN2401
@@ -424,7 +424,7 @@ INSERT INTO Student_Skill (skillID, NUID, proficiencyLevel) VALUES
 
 -- Assigning skills to each student
 
--- For NUID 1 (Alice Green, Computer Science)
+-- For NUID 1 (Alex Green, Computer Science)
 (1, 1, 5),  -- Python
 (4, 1, 4),  -- SQL
 (11, 1, 4), -- Algorithms
@@ -817,8 +817,8 @@ INSERT INTO CoOpAdvisor (email, name, departmentID) VALUES
 -- Insert data into AdvisorStudent
 INSERT INTO AdvisorStudent (NUID, advisorID) VALUES
 -- Student assigned to Co-Op Advisor
-(1, 1),  -- Alice Green assigned to Emily Reed
-(1, 2),  -- Alice Green also assigned to Michael Clark
+(1, 1),  -- Alex Green assigned to Emily Reed
+(1, 2),  -- Alex Green also assigned to Michael Clark
 (2, 7),  -- Bob Brown assigned to Sophia Davis
 (2, 20), -- Bob Brown also assigned to Ella Rodriguez
 (3, 8),  -- Charlie White assigned to Mia Johnson

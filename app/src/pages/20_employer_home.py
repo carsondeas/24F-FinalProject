@@ -6,8 +6,8 @@ from modules.nav import SideBarLinks
 
 st.set_page_config(layout='wide')
 
+# Show appropriate sidebar links for the role of the currently logged-in user
 SideBarLinks()
-
 # Define a Back Button
 if st.button("Back"):
     # Logic for the back button
@@ -16,7 +16,7 @@ if st.button("Back"):
     st.switch_page('Home.py')  # Redirect to Home page
 
 # Header
-st.title(f"Welcome Professor, {st.session_state['first_name']}!")
+st.title(f"Welcome Employer, {st.session_state['first_name']}!")
 st.subheader("Explore trends, analyze skill gaps, and access top skill insights to better prepare your students.")
 
 # Add spacing for better layout
@@ -26,17 +26,19 @@ st.write("")
 # Navigation options with streamlined buttons
 st.write("### What would you like to do today?")
 
-if st.button("Explore Skill Trends",
+if st.button("Add New Co-op Postions",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/11_skill_trend.py')
+    st.switch_page('pages/23_employer_pg3.py')
 
-if st.button("Compare Proficiency Levels",
-             type='primary',
-             use_container_width=True):
-    st.switch_page('pages/12_compare_proficiency.py')
 
-if st.button("View Top Skills for Co-ops",
+if st.button("Add New Skills to Coops",
              type='primary',
              use_container_width=True):
-    st.switch_page('pages/13_top_skills.py')
+    st.switch_page('pages/21_employer_pg1.py')
+
+if st.button("Search and Match Students",
+             type='primary',
+             use_container_width=True):
+    st.switch_page('pages/22_employer_pg2.py')
+

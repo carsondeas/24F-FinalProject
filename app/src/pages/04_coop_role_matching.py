@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_BASE = "http://web-api:4000"
+API_BASE = "http://localhost:4000"
 
 st.set_page_config(page_title="Co-op Role Matching", page_icon="💼", layout="wide")
 

@@ -11,48 +11,43 @@ def HomeNav():
 
 
 def AboutPageNav():
-    st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
+    st.sidebar.page_link("pages/40_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
+#### ------------------------ Role of student ------------------------
+def StudentHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
+        "pages/00_Student_Home.py", label="Student Home", icon="🎓"
     )
 
 
-def WorldBankVizNav():
+def SkillManangementNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
+        "pages/03_skill_management.py", label="Manage My Skills", icon="🎯"
+    )
+
+#### ------------------------ Examples for Role of professor ------------------------
+def ProfessorHomeNav():
+    st.sidebar.page_link(
+        "pages/10_professor_home.py", label="Professor Home", icon="🏫"
+    )
+
+def CourseManangementNav():
+    st.sidebar.page_link(
+        "pages/14_manage_courses.py", label="Manage My Courses", icon="📚"
     )
 
 
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
 
-
-## ------------------------ Examples for Role of usaid_worker ------------------------
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-
-def PredictionNav():
+#### ------------------------ Role of co-op advisor ------------------------
+def ManageStudentsNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
+        "pages/34_manage_students.py", label="Manage Students", icon="👨‍🎓"
     )
 
-
-def ClassificationNav():
+def ManageProfessorsNav():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
-    )
-
-
-#### ------------------------ System Admin Role ------------------------
-def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
-    st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
+        "pages/35_manage_professors.py", label="Manage Professors", icon="🧑‍🏫"
     )
 
 
@@ -63,7 +58,7 @@ def SideBarLinks(show_home=False):
     """
 
     # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
+    st.sidebar.image("assets/logo.png", width=300)
 
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
@@ -77,21 +72,19 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        # Show Student Home and Manage Skill Navigation Links fir students
+        if st.session_state["role"] == "student":
+            StudentHomeNav()
+            SkillManangementNav()
+        # Show Professor Home and Manage Skill Navigation Links fir students
+        if st.session_state["role"] == "professor":
+            ProfessorHomeNav()
+            CourseManangementNav()
 
-        # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
-
-        # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
+    # Show navigation links for co-op advisor
+        if st.session_state["role"] == "advisor":
+            ManageStudentsNav()
+            ManageProfessorsNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()

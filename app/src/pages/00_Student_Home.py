@@ -9,6 +9,13 @@ st.set_page_config(layout = 'wide')
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
+# Define a Back Button
+if st.button("Back"):
+    # Logic for the back button
+    st.write("Navigating back...")
+    # Redirect or reset the page state (Example: Use navigation logic here)
+    st.switch_page('Home.py')  # Reload the page
+
 st.title(f"Welcome Student, {st.session_state['first_name']}.")
 st.write('')
 st.write('')
@@ -24,12 +31,8 @@ if st.button('Skill Gap Analysis',
              use_container_width=True):
   st.switch_page('pages/02_skill_gap_analysis.py')
 
-if st.button('Progress Tracking',
+if st.button('Manage Skills', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/03_progress_tracking.py')
+  st.switch_page('pages/03_skill_management.py')
 
-if st.button('Co-op Role Matching',
-             type='primary',
-             use_container_width=True):
-  st.switch_page('pages/04_coop_role_matching.py')
