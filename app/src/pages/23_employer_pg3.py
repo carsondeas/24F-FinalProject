@@ -11,6 +11,17 @@ st.set_page_config(
     layout="wide",
 )
 
+# Back Button
+col1, col2, col3 = st.columns([1, 6, 1])
+with col1:
+    if st.button("← Back"):
+        st.write("Navigating back...")
+        st.switch_page('pages/20_employer_home.py')
+with col3:
+    if st.button("🏠 Home"):
+        st.write("Navigating to Home...") 
+        st.switch_page('Home.py')
+        
 st.title("Add a New Co-op Opportunity")
 
 
@@ -96,72 +107,3 @@ if st.button("Add Co-op"):
             st.success(f"Co-op '{job_title}' at '{company_name}' added successfully!")
         except requests.exceptions.RequestException as e:
             st.error(f"Error adding new co-op: {e}")
-
-# Expandable section for job and skill management
-st.title("Manage Jobs and Skills")
-st.subheader(f"Manage Jobs for '{company_name}'")
-
-# Fetch jobs for the selected company
-jobs = fetch_jobs_by_company(company_name)
-job_names = [job["jobTitle"] for job in jobs]
-# Create a mapping of job names to job IDs
-job_mapping = {job["jobTitle"]: job["jobID"] for job in jobs}  # Assuming jobs have 'jobTitle' and 'id'
-# Fetch all skills
-skills = fetch_all_skills()
-skill_names = [skill['name'] for skill in skills]  
-
-# Searchable dropdown for jobs
-selected_job = st.selectbox(
-    "Select Job",
-    options=[""] + job_names,
-    format_func=lambda x: x if x else "Type to search...",
-    )
-# Skill management after selecting a job
-if selected_job:
-    selected_job_id = job_mapping.get(selected_job)
-    st.subheader(f"Add Skills for Job: {selected_job_id}")
-    associated_skills = fetch_job_skills(selected_job_id)
-    associated_skill_names = [skill['Job Title'] for skill in associated_skills]
-    available_skills = [skill for skill in skill_names if skill not in associated_skill_names]
-
-    # Fetch skills
-    skills = fetch_all_skills()
-
-    # Multiselect for skills
-    selected_skills = st.multiselect(
-        "Select Skills to Add",
-        options=available_skills,
-        format_func=lambda x: x if x else "Type to search...",
-    )
-
-    # Add sliders for each selected skill
-    skill_proficiency = {}
-    if selected_skills:
-        st.write("Set Proficiency Levels for Selected Skills:")
-        for skill in selected_skills:
-            proficiency = st.slider(
-                f"Proficiency for {skill}",
-                min_value=0,
-                max_value=5,
-                value=5,
-                step=1,
-                key=f"slider_{skill}"
-            )
-            skill_proficiency[skill] = proficiency
-
-    # Button to add selected skills with proficiency to the job
-    if st.button("Add Skills"):
-        if not skill_proficiency:
-            st.error("Please select at least one skill and set proficiency levels.")
-        else:
-            try:
-                # Prepare payload
-                payload = {
-                    "jobTitle": selected_job,
-                    "skills": [{"name": skill, "proficiency": level} for skill, level in skill_proficiency.items()]
-                }
-                response = requests.post(f"{API_BASE}/coops/add_skill", json=payload)
-                response.raise_for_status()
-                st.success(f"Skills added to job '{selected_job}' successfully!")
-            except requests.exceptions.RequestException as e:
-                st.error(f"Error adding skills: {e}")
