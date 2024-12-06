@@ -60,9 +60,6 @@ def SideBarLinks(show_home=False):
     # add a logo to the sidebar always
     st.sidebar.image("assets/logo.png", width=300)
 
-    # DEBUG: Print the current role to check if the session state is set correctly
-    st.write("Debug: Current Role in Session State:", st.session_state.get("role"))
-
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
@@ -75,23 +72,17 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # DEBUG: Check if this block is reached for authenticated users
-        st.write("Debug: User is authenticated.")
-
         # Show Student Home and Manage Skill Navigation Links fir students
         if st.session_state["role"] == "student":
-            st.write("Debug: Role is Student.")  # Add debug statement here
             StudentHomeNav()
             SkillManangementNav()
         # Show Professor Home and Manage Skill Navigation Links fir students
         if st.session_state["role"] == "professor":
-            st.write("Debug: Role is Professor.")  # Add debug statement here
             ProfessorHomeNav()
             CourseManangementNav()
 
     # Show navigation links for co-op advisor
         if st.session_state["role"] == "advisor":
-            st.write("Debug: Role is Co-op Advisor.")  # Add debug statement here
             ManageStudentsNav()
             ManageProfessorsNav()
 
