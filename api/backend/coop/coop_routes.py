@@ -251,3 +251,26 @@ def update_skill():
     except Exception as e:
         db.get_db().rollback()
         return make_response(f"Error updating skill: {e}", 500)
+
+@coops.route('/job_roles', methods=['GET'])
+def get_job_roles():
+    query = '''
+        SELECT DISTINCT j.jobTitle AS job_role, GROUP_CONCAT(s.name) AS skills
+        FROM CoOp j
+        JOIN CoOp_Skill cs ON j.jobID = cs.jobID
+        JOIN Skill s ON cs.skillID = s.skillID
+        GROUP BY j.jobTitle
+    '''
+    cursor = db.get_db().cursor()
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        # Convert comma-separated skills into a list for each job role
+        formatted_results = [
+            {"job_role": row["job_role"], "skills": row["skills"].split(",")}
+            for row in results
+        ]
+        return make_response(jsonify(formatted_results), 200)
+    except Exception as e:
+        current_app.logger.error(f"Error fetching job roles: {e}")
+        return make_response({"error": "Failed to fetch job roles."}, 500)

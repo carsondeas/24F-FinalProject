@@ -2,13 +2,13 @@ import streamlit as st
 import pandas as pd
 import requests
 
-# Flask API Base URL
+# Set the API base URL
 API_BASE = "http://web-api:4000"
 
-# Set page configuration
+# Page configuration
 st.set_page_config(
-    page_title="Search and Match Students",
-    page_icon="🔍",
+    page_title="Add New Co-op",
+    page_icon="🏢",
     layout="wide",
 )
 
@@ -20,75 +20,157 @@ with col1:
         st.switch_page('pages/20_employer_home.py')
 with col3:
     if st.button("🏠 Home"):
-        st.write("Navigating to Home...")
+        st.write("Navigating to Home...") 
         st.switch_page('Home.py')
 
-st.title("Search and Match Students")
+st.title("Match With Canidates")
 
-# Section: Filter Students by Skills
-st.subheader("Find Candidates")
 
-# Fetch majors from API
-try:
-    response = requests.get(f"{API_BASE}/students/studentsgetall")
-    response.raise_for_status()
-    majors_data = response.json()
-    majors = ["All"] + list(set(student["major"] for student in majors_data))
-except requests.exceptions.RequestException as e:
-    st.error(f"Error fetching majors: {e}")
-    majors = ["All"]
+# Fetch all available skills
+def fetch_all_skills():
+    try:
+        response = requests.get(f"{API_BASE}/skills/all")
+        response.raise_for_status()
+        return response.json()  # Parse JSON response
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching all skills: {e}")
+        return []
+# Function to fetch all companies
+def fetch_all_companies():
+    try:
+        response = requests.get(f"{API_BASE}/coops/getall")  # Update to match your endpoint
+        response.raise_for_status()
+        data = response.json()
+        return list({item["companyName"] for item in data})  # Extract unique company names
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching company names: {e}")
+        return []
 
-# Dropdown for filtering by major
-major = st.selectbox("Filter by Major", majors)
+def fetch_jobs_by_company(company_name):
+    try:
+        # Fetch all jobs from the API
+        response = requests.get(f"{API_BASE}/coops/getall")
+        response.raise_for_status()
+        
+        # Get the full list of jobs
+        jobs = response.json()
+        
+        # Filter jobs by the given company name
+        filtered_jobs = [job for job in jobs if job.get("companyName") == company_name]
+        
+        return filtered_jobs
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching jobs for company '{company_name}': {e}")
+        return []
 
-# Fetch skills from API
-try:
-    response = requests.get(f"{API_BASE}/skills/all")
-    response.raise_for_status()
-    skills_data = response.json()
-    available_skills = [skill["name"] for skill in skills_data]
-except requests.exceptions.RequestException as e:
-    st.error(f"Error fetching skills: {e}")
-    available_skills = []
 
-# Multiselect for filtering by skills
-skills_required = st.multiselect("Required Skills", available_skills)
+# Fetch skills already associated with the job
+def fetch_job_skills(jobID):
+    try:
+        response = requests.get(f"{API_BASE}/coops/job_skills/{jobID}")  # Adjust the endpoint as needed
+        response.raise_for_status()
+        return response.json()  # Parse JSON response
+    except requests.exceptions.RequestException as e:
+        return []
+    
+def fetch_skills_for_job(job_title):
+    try:
+        response = requests.get(f"{API_BASE}/coops/job_skills/{job_title}")
+        response.raise_for_status()
+        job_skills = response.json()
+        return pd.DataFrame(job_skills, columns=["Skill Name", "Proficiency Level"])
+    except Exception as e:
+        return pd.DataFrame()
 
-# Slider for proficiency level
-proficiency_required = st.slider("Minimum Proficiency Level", min_value=1, max_value=5, value=3)
+def fetch_skill_id(skill_name):
+    try:
+        response = requests.get(f"{API_BASE}/skills/{skill_name}")  # Adjust the endpoint as needed
+        response.raise_for_status()
+        skill_data = response.json()
+        return skill_data.get('skillId')
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching skill id: {e}")
+        return []
 
-# Search button
+# Fetch job roles from the API
+def fetch_all_students():
+    try:
+        response = requests.get(f"{API_BASE}/students/geteverything")  
+        response.raise_for_status()
+        
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching all students : {e}")
+        return []
+
+# Function to create a mailto link
+def create_mailto_link(name, email):
+    subject = f"Hello {name}"
+    body = f"Dear {name},%0A%0AI would like to connect with you regarding an opportunity."
+    return f'<a href="mailto:{email}?subject={subject}&body={body}">{email}</a>'
+
+# Fetch all companies
+companies = fetch_all_companies()
+
+# Expandable section for job and skill management
+st.subheader("Filter By Company")
+
+# Searchable selectbox for Company Name
+company_name = st.selectbox(
+    "Company Name",
+    options=[""] + companies,
+    format_func=lambda x: x if x else "Type to search...",
+)
+
+st.subheader(f"Choose by Jobs '{company_name}'")
+
+# Fetch jobs for the selected company
+jobs = fetch_jobs_by_company(company_name)
+job_names = [job["jobTitle"] for job in jobs]
+# Create a mapping of job names to job IDs
+job_mapping = {job["jobTitle"]: job["jobID"] for job in jobs}  # Assuming jobs have 'jobTitle' and 'id'
+# Fetch all skills
+skills = fetch_all_skills()
+skill_names = [skill['name'] for skill in skills]  
+
+
+# Searchable dropdown for jobs
+selected_job = st.selectbox(
+    "Select Job",
+    options=[""] + job_names,
+    format_func=lambda x: x if x else "Type to search...",
+    )
+# Gets job skills of the selected job and converts to df
+job_skills = fetch_job_skills(selected_job)
+job_skills_df = pd.DataFrame(job_skills)
+
+# Gets all studetns and their skills and converts to df
+all_students = fetch_all_students()
+all_students_df = pd.DataFrame(all_students)
+
+# Perform an inner join on 'Skill Name' and 'Proficiency Level'
+matching_students = pd.merge(
+    all_students_df,
+    job_skills_df,
+    left_on=["Skill Name", "Proficiency Level"],
+    right_on=["Skill Name", "Proficiency Level"],
+    how="inner"
+)
+
+# Select only the desired columns
+result_df = matching_students[["Name", "NUID", "Email"]]
+
+# Drop duplicates in case students appear multiple times
+result_df = result_df.drop_duplicates()
+
+# Add mailto links to the result DataFrame
+result_df["Email"] = result_df.apply(lambda row: create_mailto_link(row["Name"], row["Email"]), axis=1)
+
+# Search Candidates button
 if st.button("Search Candidates"):
-    if skills_required:
-        try:
-            # Prepare payload
-            payload = {
-                "major": major if major != "All" else None,
-                "skills": skills_required,
-                "proficiency": proficiency_required,
-            }
-
-            # Call the API to fetch filtered candidates
-            response = requests.get(f"{API_BASE}/students/filter", json=payload)
-            response.raise_for_status()
-            candidates_data = response.json()
-
-            if candidates_data:
-                # Convert data to DataFrame for display
-                candidates_df = pd.DataFrame(candidates_data)
-                st.table(candidates_df)
-            else:
-                st.warning("No candidates found matching the criteria.")
-        except requests.exceptions.RequestException as e:
-            st.error(f"Error searching for candidates: {e}")
-    else:
-        st.warning("Please select at least one skill.")
-
-# Pagination Buttons
-col1, col2, col3 = st.columns([2, 6, 2])
-with col1:
-    if st.button("Previous"):
-        st.write("Previous page...")  # Placeholder for pagination logic
-with col3:
-    if st.button("Next"):
-        st.write("Next page...")  # Placeholder for pagination logic
+    # Format the table for display in Streamlit
+    st.write("### Matching Candidates")
+    st.markdown(
+        result_df.to_html(escape=False, index=False),
+        unsafe_allow_html=True
+    )

@@ -11,6 +11,18 @@ def get_students():
     data = cursor.fetchall()
     return make_response(jsonify(data), 200)
 
+@students.route('/geteverything', methods=['GET'])
+def get_all_student_skills():
+    query = '''
+        SELECT Student.NUID, Student.name AS Name, Student.email AS Email, Skill.name AS "Skill Name", Student_Skill.proficiencyLevel AS "Proficiency Level"
+        FROM Student
+        JOIN Student_Skill ON Student.NUID = Student_Skill.NUID
+        JOIN Skill ON Student_Skill.skillID = Skill.skillID'''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    return make_response(jsonify(data), 200)
+
 # Find student average proficiency level for each skill
 @students.route('/skills_avg_proficiency', methods=['GET'])
 def get_students_avg_proficiency():
@@ -234,3 +246,33 @@ def delete_selected_user_skills(NUID):
         db.get_db().rollback()
         current_app.logger.error(f"Error removing selected skills for user {NUID}: {e}")
         return make_response(f"An error occurred: {e}", 500)
+
+@students.route('/filter', methods=['GET'])
+def filter_students():
+    job_role = request.args.get('job_role', None)
+    skills = request.args.get('skills', "").split(",")  # Comma-separated skills
+    proficiency = request.args.get('proficiency', 0, type=int)
+
+    # Build dynamic SQL query
+    query = '''
+        SELECT DISTINCT s.name AS Name, s.gpa AS GPA, s.major AS Major, s.year AS Year
+        FROM Student s
+        JOIN Student_Skill ss ON s.NUID = ss.NUID
+        JOIN Skill sk ON ss.skillID = sk.skillID
+        JOIN CoOp_Skill cs ON sk.skillID = cs.skillID
+        JOIN CoOp j ON cs.jobID = j.jobID
+        WHERE (%s IS NULL OR j.jobTitle = %s)
+          AND sk.name IN ({})
+          AND ss.proficiencyLevel >= %s
+    '''.format(', '.join(['%s'] * len(skills)))
+
+    params = [job_role, job_role] + skills + [proficiency]
+
+    cursor = db.get_db().cursor()
+    try:
+        cursor.execute(query, params)
+        results = cursor.fetchall()
+        return make_response(jsonify(results), 200)
+    except Exception as e:
+        current_app.logger.error(f"Error filtering students: {e}")
+        return make_response({"error": "Failed to filter students."}, 500)
