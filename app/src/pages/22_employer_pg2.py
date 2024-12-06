@@ -148,29 +148,40 @@ job_skills_df = pd.DataFrame(job_skills)
 all_students = fetch_all_students()
 all_students_df = pd.DataFrame(all_students)
 
-# Perform an inner join on 'Skill Name' and 'Proficiency Level'
-matching_students = pd.merge(
-    all_students_df,
-    job_skills_df,
-    left_on=["Skill Name", "Proficiency Level"],
-    right_on=["Skill Name", "Proficiency Level"],
-    how="inner"
-)
-
-# Select only the desired columns
-result_df = matching_students[["Name", "NUID", "Email"]]
-
-# Drop duplicates in case students appear multiple times
-result_df = result_df.drop_duplicates()
-
-# Add mailto links to the result DataFrame
-result_df["Email"] = result_df.apply(lambda row: create_mailto_link(row["Name"], row["Email"]), axis=1)
-
-# Search Candidates button
-if st.button("Search Candidates"):
-    # Format the table for display in Streamlit
-    st.write("### Matching Candidates")
-    st.markdown(
-        result_df.to_html(escape=False, index=False),
-        unsafe_allow_html=True
+# Check if the job_skills_df is empty
+if job_skills_df.empty:
+    st.write("No skills in this role.")
+else:
+    # Perform an inner join on 'Skill Name' and 'Proficiency Level'
+    matching_students = pd.merge(
+        all_students_df,
+        job_skills_df,
+        left_on=["Skill Name", "Proficiency Level"],
+        right_on=["Skill Name", "Proficiency Level"],
+        how="inner"
     )
+
+    # Select only the desired columns
+    result_df = matching_students[["Name", "NUID", "Email"]]
+
+    # Drop duplicates in case students appear multiple times
+    result_df = result_df.drop_duplicates()
+
+    # Add mailto links to the result DataFrame
+    result_df["Email"] = result_df.apply(lambda row: create_mailto_link(row["Name"], row["Email"]), axis=1)
+
+    # Search Candidates button
+    if st.button("Search Candidates"):
+        if result_df.empty:
+            st.write("No matching candidates found.")
+        else:
+            # Format the table for display in Streamlit
+            st.markdown(
+                """
+                <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                    <h3>Matching Candidates</h3>
+                    {table}
+                </div>
+                """.format(table=result_df.to_html(escape=False, index=False)),
+                unsafe_allow_html=True
+            )
