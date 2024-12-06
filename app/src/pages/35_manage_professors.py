@@ -23,7 +23,7 @@ st.title("Manage Professors")
 @st.cache_data
 def fetch_all_professors():
     try:
-        response = requests.get(f"{API_BASE}/professors")
+        response = requests.get(f"{API_BASE}/professors/professorsgetall")
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
@@ -42,7 +42,7 @@ def add_professor(payload):
 # Update a professor
 def update_professor(professor_id, payload):
     try:
-        response = requests.put(f"{API_BASE}/professors/{professor_id}", json=payload)
+        response = requests.put(f"{API_BASE}/professors/{professor_id}/update", json=payload)
         response.raise_for_status()
         st.success("Professor updated successfully!")
     except requests.exceptions.RequestException as e:
@@ -51,7 +51,7 @@ def update_professor(professor_id, payload):
 # Delete a professor
 def delete_professor(professor_id):
     try:
-        response = requests.delete(f"{API_BASE}/professors/{professor_id}")
+        response = requests.delete(f"{API_BASE}/professors/{professor_id}/delete")
         response.raise_for_status()
         st.success("Professor deleted successfully!")
     except requests.exceptions.RequestException as e:

@@ -42,7 +42,7 @@ def add_student(payload):
 # Update a student
 def update_student(nuid, payload):
     try:
-        response = requests.put(f"{API_BASE}/students/{nuid}", json=payload)
+        response = requests.put(f"{API_BASE}/students/{nuid}/update", json=payload)
         response.raise_for_status()
         st.success("Student updated successfully!")
     except requests.exceptions.RequestException as e:

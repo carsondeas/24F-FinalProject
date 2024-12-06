@@ -5,16 +5,24 @@ from backend.db_connection import db
 professors = Blueprint('professors', __name__)
 
 # Get all professors in the database
-@professors.route('/professors', methods=['GET'])
+@professors.route('/professorsgetall', methods=['GET'])
 def get_all_professors():
-    query = 'SELECT id, name, department_id FROM Professors'
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    data = cursor.fetchall()
-    return make_response(jsonify(data), 200)
+    query = '''
+        SELECT professorID, name, email, departmentID
+        FROM Professor
+    '''
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+        return make_response(jsonify(data), 200)
+    except Exception as e:
+        current_app.logger.error(f"Error fetching professors: {e}")
+        return make_response({"error": str(e)}, 500)
+
 
 # Add a professor
-@professors.route('/professors', methods=['POST'])
+@professors.route('/add', methods=['POST'])
 def add_professor():
     """
     Add a new professor to the database.
@@ -82,7 +90,7 @@ def update_professor(professorID):
 
 
 # Delete a professor
-@professors.route('/<int:professorID>', methods=['DELETE'])
+@professors.route('/<int:professorID>/delete', methods=['DELETE'])
 def delete_professor(professorID):
     """
     Delete a professor by their ID.
@@ -112,7 +120,7 @@ def delete_professor(professorID):
 def get_professor_by_id(professor_id):
     query = '''
         SELECT P.id, P.name, D.name AS department, GROUP_CONCAT(C.name) AS courses
-        FROM Professors P
+        FROM Professor P
         LEFT JOIN Departments D ON P.department_id = D.id
         LEFT JOIN Courses C ON P.id = C.professor_id
         WHERE P.id = %s
