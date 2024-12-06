@@ -15,7 +15,7 @@ if st.button("Back"):
     st.switch_page('Home.py')  # Redirect to Home page
 
 # Header
-st.title("Welcome, Professor!")
+st.title(f"Welcome Professor, {st.session_state['first_name']}!")
 st.subheader("Explore trends, analyze skill gaps, and access top skill insights to better prepare your students.")
 
 # Add spacing for better layout

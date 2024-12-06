@@ -8,7 +8,6 @@ st.set_page_config(layout='wide')
 
 # Show appropriate sidebar links for the role of the currently logged-in user
 SideBarLinks()
-
 # Define a Back Button
 if st.button("Back"):
     # Logic for the back button
@@ -17,7 +16,7 @@ if st.button("Back"):
     st.switch_page('Home.py')  # Redirect to Home page
 
 # Header
-st.title("Welcome, Employer!")
+st.title(f"Welcome Employer, {st.session_state['first_name']}!")
 st.subheader("Explore trends, analyze skill gaps, and access top skill insights to better prepare your students.")
 
 # Add spacing for better layout
