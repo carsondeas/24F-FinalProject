@@ -29,7 +29,7 @@ def SkillManangementNav():
 #### ------------------------ Examples for Role of professor ------------------------
 def ProfessorHomeNav():
     st.sidebar.page_link(
-        "pages/10_Professor_Home.py", label="Professor Home", icon="🏫"
+        "pages/10_professor_home.py", label="Professor Home", icon="🏫"
     )
 
 def CourseManangementNav():
