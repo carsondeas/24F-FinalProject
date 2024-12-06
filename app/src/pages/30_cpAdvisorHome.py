@@ -14,7 +14,7 @@ if st.button("Back"):
     st.switch_page('Home.py')  # Redirect to Home page
 
 # Welcome Message
-st.title(f"Welcome Advisor Bobby")
+st.title(f"Welcome Adivsor, {st.session_state['first_name']}!")
 st.write('')
 st.write('')
 st.write("### What would you like to do today?")
