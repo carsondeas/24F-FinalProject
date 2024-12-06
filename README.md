@@ -92,3 +92,58 @@ The database design incorporates entities such as Users, Skills, Co-Ops, Profess
 User stories for various personas have shaped the data model, ensuring that the database supports key features such as skill tracking, co-op matching, and analytics.
 
 Relational Database Queries: Specific SQL queries are used to meet user requirements, such as viewing frequently requested skills, adding skills to profiles, updating proficiency levels, and finding students with specific competencies.
+
+## Getting Started
+
+# Prerequisites
+
+Python - Required to run the backend server.
+
+Streamlit - Required to run the frontend application.
+
+SQL - Used for data storage.
+
+Docker - Required if you want to run the application using Docker containers.
+
+# Installation
+
+Clone the repository:
+    git clone https://github.com/username/skillseeker.git
+
+Navigate to the project directory:
+    cd SkillSeeker-main
+
+Install the dependencies for the API and app:
+    cd api
+    pip install -r requirements.txt
+    cd ../app
+    pip install -r requirements.txt
+
+# Running the Application
+You can run the application either locally or using Docker.
+
+Running Locally
+
+Start the backend server:
+    cd api
+    flask run
+
+# Usage
+
+Explore Skills: Browse through categories to find skills you're interested in learning.
+
+Set Goals: Create personal milestones and set deadlines to keep your learning journey on track.
+
+Track Progress: Visualize your progress with dynamic charts and status indicators.
+
+Match with Co-Ops: Based on your skill set, find co-op opportunities that match your abilities and interests.
+
+Skill Insights for Professors and Employers: Professors can access aggregated skill gap data, and employers can update skill requirements in real-time to find suitable candidates.
+
+Contact
+
+For any questions or suggestions, feel free to reach out:
+
+Emails: carsoncolbydeas@gmail.com, IanMenachery@gmail.com, jonathanww89@gmail.com, TylerHwang0904@gmail.com, jung.jay.10@gmail.com
+
+We hope you enjoy using SkillSeeker and that it helps you achieve your learning goals!
