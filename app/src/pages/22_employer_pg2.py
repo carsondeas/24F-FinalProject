@@ -69,7 +69,7 @@ if st.button("Search Candidates"):
             }
 
             # Call the API to fetch filtered candidates
-            response = requests.post(f"{API_BASE}/students/filter", json=payload)
+            response = requests.get(f"{API_BASE}/students/filter", json=payload)
             response.raise_for_status()
             candidates_data = response.json()
 
