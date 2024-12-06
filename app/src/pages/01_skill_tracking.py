@@ -116,3 +116,9 @@ def fetch_all_user_skills(nuid):
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching user skills: {e}")
         return []
+
+
+if st.button('Manage Skills', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/03_skill_management.py')

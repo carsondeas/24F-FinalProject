@@ -79,8 +79,31 @@ def get_all_co_ops_name():
     return make_response(jsonify(data), 200)
 
 
-@coops.route('/job_skills/<string:job_title>', methods=['GET'])
-def get_job_skills_by_title(job_title):
+@coops.route('/job_skills/<int:jobID>', methods=['GET'])
+def get_job_skills_by_id(jobID):
+    query = '''
+        SELECT 
+            CoOp.jobTitle AS "Job Title",
+            CoOp.companyName AS "Company Name",
+            CoOp.industry AS "Industry",
+            Skill.name AS "Skill Name",
+            CoOp_Skill.proficiencyLevel AS "Proficiency Level"
+        FROM CoOp
+        JOIN CoOp_Skill ON CoOp.jobID = CoOp_Skill.jobID
+        JOIN Skill ON CoOp_Skill.skillID = Skill.skillID
+        WHERE CoOp.jobID = %s;
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (jobID,))
+    data = cursor.fetchall()
+    
+    if not data:
+        return make_response(jsonify({"message": "No skills found for the specified job ID"}), 404)
+    
+    return make_response(jsonify(data), 200)
+
+@coops.route('/job_skills/<string:jobTitle>', methods=['GET'])
+def get_job_skills_by_title(jobTitle):
     query = '''
         SELECT 
             CoOp.jobTitle AS "Job Title",
@@ -94,7 +117,7 @@ def get_job_skills_by_title(job_title):
         WHERE CoOp.jobTitle = %s;
     '''
     cursor = db.get_db().cursor()
-    cursor.execute(query, (job_title,))
+    cursor.execute(query, (jobTitle,))
     data = cursor.fetchall()
     
     if not data:
@@ -121,10 +144,6 @@ def get_coop_by_id(coop_id):
     else:
         return make_response("Co-op opportunity not found", 404)
 
-from flask import Blueprint, request, jsonify, make_response
-from backend.db_connection import db
-
-coops = Blueprint('coops', __name__)
 
 @coops.route('/addrole', methods=['POST'])
 def add_co_op():
@@ -157,7 +176,9 @@ def add_co_op():
 
 
 
-@coops.route('/coops/<int:coop_id>', methods=['PUT'])
+
+
+@coops.route('/<int:coop_id>', methods=['PUT'])
 def update_coop(coop_id):
     data = request.json
     cursor = db.get_db().cursor()
@@ -196,3 +217,37 @@ def delete_coop(coop_id):
     
     db.get_db().commit()
     return make_response("Co-op opportunity removed successfully", 200)
+
+@coops.route('/add_skill', methods=['POST'])
+def add_skill():
+    data = request.json
+    query = 'INSERT INTO CoOp_Skill (skillID, jobID, proficiencyLevel) VALUES (%s, %s, %s)'
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (data['skillID'], data['jobID'], data['proficiencyLevel']))
+    db.get_db().commit()
+    return make_response("Skill added successfully", 201)
+
+@coops.route('/update_skill', methods=['PUT'])
+def update_skill():
+    data = request.json
+
+    # Extracting the variables
+    SkillID = data.get('skillID')
+    JobID = data.get('jobID')
+    ProficiencyLevel = data.get('proficiencyLevel')
+
+    if not (SkillID and JobID and ProficiencyLevel is not None):  # Validate input
+        return make_response("Missing required fields", 400)
+
+    # Correct query syntax
+    query = 'UPDATE CoOp_Skill SET proficiencyLevel = %s WHERE jobID = %s AND skillID = %s'
+    cursor = db.get_db().cursor()
+
+    try:
+        # Correct order of arguments for the query
+        cursor.execute(query, (ProficiencyLevel, JobID, SkillID))
+        db.get_db().commit()
+        return make_response("Skill updated successfully", 200)
+    except Exception as e:
+        db.get_db().rollback()
+        return make_response(f"Error updating skill: {e}", 500)

@@ -31,3 +31,8 @@ if st.button('Skill Gap Analysis',
              use_container_width=True):
   st.switch_page('pages/02_skill_gap_analysis.py')
 
+if st.button('Manage Skills', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/03_skill_management.py')
+

@@ -23,17 +23,21 @@ def add_skill():
     db.get_db().commit()
     return make_response("Skill added successfully", 201)
 
-@skills.route('/skills/<int:skill_id>', methods=['GET'])
-def get_skill_by_id(skill_id):
-    query = 'SELECT id, skill FROM Skills WHERE id = %s'
+@skills.route('/<string:skill_name>', methods=['GET'])
+def get_skill_by_name(skill_name):
+    query = '''
+        SELECT Skill.skillId 
+        FROM Skill 
+        WHERE Skill.name = %s'''
     cursor = db.get_db().cursor()
-    cursor.execute(query, (skill_id,))
+    cursor.execute(query, (skill_name,))
     data = cursor.fetchone()
     if data:
         return make_response(jsonify(data), 200)
     else:
         return make_response("Skill not found", 404)
-    
+
+
 # Update details of a skill (e.g., proficiency levels)
 @skills.route('/skills/<int:skill_id>', methods=['PUT'])
 def update_skill(skill_id):

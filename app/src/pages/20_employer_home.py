@@ -27,17 +27,19 @@ st.write("")
 # Navigation options with streamlined buttons
 st.write("### What would you like to do today?")
 
-if st.button("Manage Co-op Postions and Skills",
+if st.button("Add New Co-op Postions",
              type='primary',
              use_container_width=True):
     st.switch_page('pages/21_employer_pg1.py')
+
+
+if st.button("Add New Skills to Coops",
+             type='primary',
+             use_container_width=True):
+    st.switch_page('pages/23_employer_pg3.py')
 
 if st.button("Search and Match Students",
              type='primary',
              use_container_width=True):
     st.switch_page('pages/22_employer_pg2.py')
 
-if st.button("View Industry and Skill Trends",
-             type='primary',
-             use_container_width=True):
-    st.switch_page('pages/23_employer_pg3.py')
