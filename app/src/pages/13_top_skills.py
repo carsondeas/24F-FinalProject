@@ -18,7 +18,7 @@ col1, col2, col3 = st.columns([1, 6, 1])
 with col1:
     if st.button("← Back"):
         st.write("Navigating back...")
-        st.switch_page('pages/10_Professor_Home.py')
+        st.switch_page('pages/10_professor_home.py')
 with col3:
     if st.button("🏠 Home"):
         st.write("Navigating to Home...") 

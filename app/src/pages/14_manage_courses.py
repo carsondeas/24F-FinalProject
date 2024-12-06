@@ -14,7 +14,7 @@ st.set_page_config(
 # Define a Back Button
 if st.button("<- Back"):
     st.write("Navigating back...")
-    st.switch_page('pages/10_Professor_Home.py')
+    st.switch_page('pages/10_professor_home.py')
 
 st.title("Course Management")
 
