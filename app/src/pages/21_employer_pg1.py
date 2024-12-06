@@ -164,7 +164,17 @@ if selected_job:
         try:
             # Determine if the skill needs a POST or PUT
             for skill, proficiency in skill_proficiency.items():
-                if skill in required_skills_df["Skill Name"].values:
+                if  required_skills_df.empty:
+                    st.write(selected_job_id)
+                    payload_add = {
+                        "skillID": fetch_skill_id(skill),
+                        "jobID": selected_job_id,
+                        "proficiencyLevel": proficiency
+                    }
+                    response_add = requests.post(f"{API_BASE}/coops/add_skill", json=payload_add)
+                    response_add.raise_for_status()
+                    st.success(f"New skills added to job '{selected_job}' successfully!")
+                elif skill in required_skills_df["Skill Name"].values:
                     payload_update = {
                         "jobID": selected_job_id,
                         "skillID": fetch_skill_id(skill),
