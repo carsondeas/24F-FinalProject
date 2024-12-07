@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Course_Skill (
     courseID INT,
     proficiencyLevel INT,
     PRIMARY KEY (skillID, courseID),
-    FOREIGN KEY (skillID) REFERENCES Skill(skillID),
+    FOREIGN KEY (skillID) REFERENCES Skill(skillID) ON DELETE CASCADE,
     FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS Student_Course (
     NUID INT,
     courseID INT,
     PRIMARY KEY (NUID, courseID),
-    FOREIGN KEY (NUID) REFERENCES Student(NUID),
+    FOREIGN KEY (NUID) REFERENCES Student(NUID) ON DELETE CASCADE,
     FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
 );
 
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS Student_Skill (
     NUID INT,
     proficiencyLevel INT,
     PRIMARY KEY (skillID, NUID),
-    FOREIGN KEY (skillID) REFERENCES Skill(skillID),
-    FOREIGN KEY (NUID) REFERENCES Student(NUID)
+    FOREIGN KEY (skillID) REFERENCES Skill(skillID) ON DELETE CASCADE,
+    FOREIGN KEY (NUID) REFERENCES Student(NUID) ON DELETE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS CoOp (
@@ -74,16 +74,16 @@ CREATE TABLE IF NOT EXISTS CoOp_Skill (
     jobID INT,
     proficiencyLevel INT,
     PRIMARY KEY (skillID, jobID),
-    FOREIGN KEY (skillID) REFERENCES Skill(skillID),
-    FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
+    FOREIGN KEY (skillID) REFERENCES Skill(skillID) ON DELETE CASCADE,
+    FOREIGN KEY (jobID) REFERENCES CoOp(jobID) ON DELETE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS Student_CoOp (
     NUID INT,
     jobID INT,
     PRIMARY KEY (NUID, jobID),
-    FOREIGN KEY (NUID) REFERENCES Student(NUID),
-    FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
+    FOREIGN KEY (NUID) REFERENCES Student(NUID) ON DELETE CASCADE,
+    FOREIGN KEY (jobID) REFERENCES CoOp(jobID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Employer (
@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS Employer_CoOp (
     employerID INT,
     jobID INT,
     PRIMARY KEY (employerID, jobID),
-    FOREIGN KEY (employerID) REFERENCES Employer(employerID),
-    FOREIGN KEY (jobID) REFERENCES CoOp(jobID)
+    FOREIGN KEY (employerID) REFERENCES Employer(employerID) ON DELETE CASCADE,
+    FOREIGN KEY (jobID) REFERENCES CoOp(jobID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS CoOpAdvisor (
@@ -107,21 +107,21 @@ CREATE TABLE IF NOT EXISTS CoOpAdvisor (
     email VARCHAR(255),
     name VARCHAR(255),
     departmentID INT,
-    FOREIGN KEY (departmentID) REFERENCES Department(departmentID)
+    FOREIGN KEY (departmentID) REFERENCES Department(departmentID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS AdvisorStudent (
     NUID INT,
     advisorID INT,
     PRIMARY KEY (NUID, advisorID),
-    FOREIGN KEY (NUID) REFERENCES Student(NUID),
-    FOREIGN KEY (advisorID) REFERENCES CoOpAdvisor(advisorID)
+    FOREIGN KEY (NUID) REFERENCES Student(NUID) ON DELETE CASCADE,
+    FOREIGN KEY (advisorID) REFERENCES CoOpAdvisor(advisorID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS AdvisorEmployer (
     employerID INT,
     advisorID INT,
     PRIMARY KEY (employerID, advisorID),
-    FOREIGN KEY (employerID) REFERENCES Employer(employerID),
-    FOREIGN KEY (advisorID) REFERENCES CoOpAdvisor(advisorID)
+    FOREIGN KEY (employerID) REFERENCES Employer(employerID) ON DELETE CASCADE,
+    FOREIGN KEY (advisorID) REFERENCES CoOpAdvisor(advisorID) ON DELETE CASCADE
 );
