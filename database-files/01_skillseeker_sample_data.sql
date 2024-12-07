@@ -75,7 +75,7 @@ INSERT INTO Professor (email, name, departmentID) VALUES
 -- Insert data into Course
 INSERT INTO Course (description, name, professorID) VALUES 
 ('Database Design', 'CS3200', 1),            -- courseID = 1
-('Advanced Algorithms', 'CS3000', 1),        -- courseID = 2
+('Advanced Algorithms', 'CS3000', 1),        -- courseID = 1
 ('Corporate Finance', 'FINA3301', 2),        -- courseID = 3
 ('Intro to Computer Science', 'CS2500', 4), -- courseID = 4
 ('Computer Systems', 'CS3650', 5),           -- courseID = 5
