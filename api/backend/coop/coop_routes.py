@@ -174,10 +174,6 @@ def add_co_op():
         db.get_db().rollback()  # Rollback transaction in case of error
         return make_response(jsonify({"error": str(e)}), 500)
 
-
-
-
-
 @coops.route('/<int:coop_id>', methods=['PUT'])
 def update_coop(coop_id):
     data = request.json

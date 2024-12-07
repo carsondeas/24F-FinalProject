@@ -10,8 +10,8 @@ SideBarLinks()
 if st.button("Back"):
     # Logic for the back button
     st.write("Navigating back...")
-    # Redirect or reset the page state
-    st.switch_page('Home.py')  # Redirect to Home page
+    # Redirect to Home page
+    st.switch_page('Home.py')  
 
 # Welcome Message
 st.title(f"Welcome Adivsor, {st.session_state['first_name']}!")

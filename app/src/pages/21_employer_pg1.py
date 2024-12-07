@@ -38,10 +38,10 @@ def fetch_all_skills():
 # Function to fetch all companies
 def fetch_all_companies():
     try:
-        response = requests.get(f"{API_BASE}/coops/getall")  # Update to match your endpoint
+        response = requests.get(f"{API_BASE}/coops/getall")  
         response.raise_for_status()
         data = response.json()
-        return list({item["companyName"] for item in data})  # Extract unique company names
+        return list({item["companyName"] for item in data}) 
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching company names: {e}")
         return []
@@ -67,7 +67,7 @@ def fetch_jobs_by_company(company_name):
 # Fetch skills already associated with the job
 def fetch_job_skills(jobID):
     try:
-        response = requests.get(f"{API_BASE}/coops/job_skills/{jobID}")  # Adjust the endpoint as needed
+        response = requests.get(f"{API_BASE}/coops/job_skills/{jobID}")  
         response.raise_for_status()
         return response.json()  # Parse JSON response
     except requests.exceptions.RequestException as e:
@@ -84,7 +84,7 @@ def fetch_skills_for_job(job_title):
 
 def fetch_skill_id(skill_name):
     try:
-        response = requests.get(f"{API_BASE}/skills/{skill_name}")  # Adjust the endpoint as needed
+        response = requests.get(f"{API_BASE}/skills/{skill_name}") 
         response.raise_for_status()
         skill_data = response.json()
         return skill_data.get('skillId')
@@ -114,7 +114,7 @@ st.subheader(f"Manage Jobs for '{company_name}'")
 jobs = fetch_jobs_by_company(company_name)
 job_names = [job["jobTitle"] for job in jobs]
 # Create a mapping of job names to job IDs
-job_mapping = {job["jobTitle"]: job["jobID"] for job in jobs}  # Assuming jobs have 'jobTitle' and 'id'
+job_mapping = {job["jobTitle"]: job["jobID"] for job in jobs}
 # Fetch all skills
 skills = fetch_all_skills()
 skill_names = [skill['name'] for skill in skills]  

@@ -68,7 +68,7 @@ if companies:
         for company in filtered_companies:
             skills = company.get('skillName', '')
             if skills:
-                for skill in skills.split(', '):  # Assuming skills are comma-separated
+                for skill in skills.split(', '): 
                     skill_counts[skill] = skill_counts.get(skill, 0) + 1
 
         # Convert the skill data to a DataFrame for visualization

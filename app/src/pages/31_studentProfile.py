@@ -20,7 +20,7 @@ with col1:
         st.switch_page('pages/30_cpAdvisorHome.py')
 with col3:
     if st.button("🏠 Home"):
-        st.write("Navigating to Home...")  # Replace with navigation logic
+        st.write("Navigating to Home...") 
 
 st.title("Student Profiles")
 
@@ -73,7 +73,7 @@ student_options = [f"{student['name']} (NUID: {student['NUID']})" for student in
 # Searchable input for student selection
 selected_student = st.selectbox(
     "Select a Student",
-    options=[""] + student_options,  # Add an empty default option
+    options=[""] + student_options, 
     help="Search for a student by name or NUID"
 )
 

@@ -163,7 +163,7 @@ if new_skills:
             
             # Prepare the payload for adding the skill
             payload = {
-                "NUID": int(user_id),  # Replace with the actual NUID variable
+                "NUID": int(user_id), 
                 "SkillID": skill_id,
                 "ProficiencyLevel": proficiency_level
             }

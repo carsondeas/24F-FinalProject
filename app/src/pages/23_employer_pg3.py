@@ -37,10 +37,10 @@ def fetch_all_skills():
 # Function to fetch all companies
 def fetch_all_companies():
     try:
-        response = requests.get(f"{API_BASE}/coops/getall")  # Update to match your endpoint
+        response = requests.get(f"{API_BASE}/coops/getall")
         response.raise_for_status()
         data = response.json()
-        return list({item["companyName"] for item in data})  # Extract unique company names
+        return list({item["companyName"] for item in data})
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching company names: {e}")
         return []
@@ -66,7 +66,7 @@ def fetch_jobs_by_company(company_name):
 # Fetch skills already associated with the job
 def fetch_job_skills(job_title):
     try:
-        response = requests.get(f"{API_BASE}/coops/job_skills/{job_title}")  # Adjust the endpoint as needed
+        response = requests.get(f"{API_BASE}/coops/job_skills/{job_title}")
         response.raise_for_status()
         return response.json()  # Parse JSON response
     except requests.exceptions.RequestException as e:

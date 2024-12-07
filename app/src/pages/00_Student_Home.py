@@ -13,7 +13,7 @@ SideBarLinks()
 if st.button("Back"):
     # Logic for the back button
     st.write("Navigating back...")
-    # Redirect or reset the page state (Example: Use navigation logic here)
+    # Redirect or reset the page state
     st.switch_page('Home.py')  # Reload the page
 
 st.title(f"Welcome Student, {st.session_state['first_name']}.")
