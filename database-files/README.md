@@ -4,7 +4,10 @@ The 00_skillseeker.sql file contains the DDL for creating the database.
 01_skillseeker_sample_data.sql file inserts data into the database.
 
 To access mySQL in terminal run:
-mysql -u root -p
+    docker exec -it mysql_db mysql -u root -p
+
+Enter the password when prompted:
+    skillseekerpassword
 
 After accessing mySQL...
 Remove current database with by running the following:
