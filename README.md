@@ -1,4 +1,5 @@
 # SkillSeeker
+By: Jon, Carson, Tyler, Jay, and Ian
 
 SkillSeeker is an innovative application designed to help individuals explore, track, and develop their skills. Whether you're looking to learn a new craft, sharpen your coding abilities, or set personal development goals, SkillSeeker provides you with a structured pathway and the resources you need to grow.
 
