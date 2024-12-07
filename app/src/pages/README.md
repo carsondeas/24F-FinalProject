@@ -1,7 +1,17 @@
 # `pages` Folder
 
-This folder contains all the pages that will be part of the application. Details on required numbers will be provided in the Phase 3 documentation.
+Page 00 represents the student persona. 
+Pages 01-04 represent the functionality associated with a student.
 
-These pages are meant to show you an example of some of the features of Streamlit and the way we will limit functionality access by role/persona. It is not meant to represent a complete application.
+Page 10 represents the professor persona.
+Pages 11-14 represent the functionality associated with a professor.
 
-TODO: Describe the pages folder and include link to documentation. Don't forget about ordering of pages.
+Page 20 represents the employer persona.
+Pages 21-23 represent the functionality associated with an employer.
+
+Page 30 represents the co-op advisor persona.
+Pages 31-35 represent the functionality associated with a co-op advisor.
+
+Page 40 is our about page for SkillSeeeker.
+
+Home.py represents the Home page for the Streamlit application
