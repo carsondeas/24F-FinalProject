@@ -1,6 +1,5 @@
 from flask import Flask
 from backend.db_connection import db
-from backend.department.department_routes import departments
 from backend.Professor.professor_routes import professors
 from backend.courses.course_routes import courses
 from backend.student.student_routes import students
@@ -32,7 +31,6 @@ def create_app():
 
     # Register the routes from each Blueprint
     app.logger.info('Registering blueprints with the Flask app object...')
-    app.register_blueprint(departments, url_prefix='/departments')
     app.register_blueprint(skills, url_prefix='/skills')
     app.register_blueprint(coops, url_prefix='/coops')
     app.register_blueprint(professors, url_prefix='/professors')
